@@ -810,6 +810,46 @@ textarea:focus {
     </div>
   </div>
 
+  <!-- ASYA MEMORY -->
+  <div id="asyaMemory" class="panel">
+    <div class="panel-content">
+      <h3>🧠 Память Аси</h3>
+      <p>Здесь хранятся сведения, которые Ася запомнила с твоего разрешения.</p>
+
+      <div class="memory-tools">
+        <textarea
+          id="asyaMemoryInput"
+          class="memory-field"
+          rows="3"
+          maxlength="2000"
+          placeholder="Что Ася должна запомнить?"
+        ></textarea>
+
+        <button
+          class="memory-btn primary-memory"
+          type="button"
+          onclick="saveAsyaMemory()"
+        >
+          Сохранить воспоминание
+        </button>
+
+        <button
+          class="memory-btn"
+          type="button"
+          onclick="loadAsyaMemories()"
+        >
+          Обновить список
+        </button>
+      </div>
+
+      <div id="asyaMemoryStatus" class="memory-status" aria-live="polite">
+        Загрузка памяти...
+      </div>
+
+      <div id="asyaMemoryList" class="memory-list"></div>
+    </div>
+  </div>
+
   <div class="foot">
     ASEEV AI HOME · NEON FUTURE · VERSION 2.1
   </div>
@@ -1325,6 +1365,145 @@ const sendButton = document.querySelector('.send-btn');
 // Адрес компьютера в домашней сети. Если IP компьютера изменится,
 // обнови адрес здесь.
 const AI_CHAT_URL = 'http://192.168.31.229:8000/chat';
+
+const AI_MEMORY_URL = 'http://192.168.31.229:8000/memory';
+
+async function loadAsyaMemories() {
+  const status = document.getElementById('asyaMemoryStatus');
+  const list = document.getElementById('asyaMemoryList');
+
+  status.textContent = 'Загружаю воспоминания...';
+
+  try {
+    const response = await fetch(AI_MEMORY_URL);
+
+    if (!response.ok) {
+      throw new Error('HTTP ' + response.status);
+    }
+
+    const data = await response.json();
+    list.replaceChildren();
+
+    if (!Array.isArray(data.memories) || data.memories.length === 0) {
+      status.textContent = 'Пока воспоминаний нет.';
+      return;
+    }
+
+    data.memories.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'memory-card';
+
+      const content = document.createElement('p');
+      content.textContent = item.content;
+
+      const info = document.createElement('small');
+      info.textContent = 'Запись №' + item.id;
+
+      const editButton = document.createElement('button');
+      editButton.className = 'memory-btn';
+      editButton.textContent = 'Изменить';
+      editButton.onclick = () => editAsyaMemory(item.id, item.content);
+
+      const deleteButton = document.createElement('button');
+      deleteButton.className = 'memory-btn';
+      deleteButton.textContent = 'Удалить';
+      deleteButton.onclick = () => deleteAsyaMemory(item.id);
+
+      card.append(info, content, editButton, deleteButton);
+      list.appendChild(card);
+    });
+
+    status.textContent = 'Воспоминаний: ' + data.memories.length;
+  } catch (error) {
+    status.textContent = 'Не удалось загрузить память: ' + error.message;
+  }
+}
+
+async function saveAsyaMemory() {
+  const input = document.getElementById('asyaMemoryInput');
+  const status = document.getElementById('asyaMemoryStatus');
+  const content = input.value.trim();
+
+  if (!content) {
+    status.textContent = 'Сначала введи текст воспоминания.';
+    return;
+  }
+
+  try {
+    const response = await fetch(AI_MEMORY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.detail || 'HTTP ' + response.status);
+    }
+
+    input.value = '';
+    status.textContent = data.duplicate
+      ? 'Такое воспоминание уже существует.'
+      : 'Воспоминание сохранено ✓';
+
+    await loadAsyaMemories();
+  } catch (error) {
+    status.textContent = 'Ошибка сохранения: ' + error.message;
+  }
+}
+
+async function editAsyaMemory(id, oldContent) {
+  const content = prompt('Измени воспоминание:', oldContent);
+
+  if (content === null || !content.trim()) return;
+
+  try {
+    const response = await fetch(AI_MEMORY_URL + '/' + id, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content: content.trim() })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.detail || 'HTTP ' + response.status);
+    }
+
+    document.getElementById('asyaMemoryStatus').textContent =
+      'Воспоминание изменено ✓';
+
+    await loadAsyaMemories();
+  } catch (error) {
+    document.getElementById('asyaMemoryStatus').textContent =
+      'Ошибка изменения: ' + error.message;
+  }
+}
+
+async function deleteAsyaMemory(id) {
+  if (!confirm('Удалить это воспоминание Аси?')) return;
+
+  try {
+    const response = await fetch(AI_MEMORY_URL + '/' + id, {
+      method: 'DELETE'
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.detail || 'HTTP ' + response.status);
+    }
+
+    document.getElementById('asyaMemoryStatus').textContent =
+      'Воспоминание удалено ✓';
+
+    await loadAsyaMemories();
+  } catch (error) {
+    document.getElementById('asyaMemoryStatus').textContent =
+      'Ошибка удаления: ' + error.message;
+  }
+}
 
 function getHistory() {
   try {
