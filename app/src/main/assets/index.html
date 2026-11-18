@@ -4,118 +4,159 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#101322">
+<meta name="theme-color" content="#080b16">
 <title>Aseev AI Home</title>
 
 <style>
 :root {
-  --bg:#101322;
-  --panel:#1a2034;
-  --line:#303b5c;
-  --cyan:#63d8ee;
-  --purple:#a58bff;
-  --muted:#aab3cc;
+  --bg:#080b16;
+  --panel:#11182a;
+  --panel2:#151d33;
+  --line:#263653;
+  --cyan:#54e5ff;
+  --purple:#a58aff;
+  --muted:#929fbd;
+  --text:#f3f6ff;
+  --green:#65e6b7;
 }
 
-* { box-sizing:border-box; }
+* {box-sizing:border-box;}
 
 body {
   margin:0;
-  background:radial-gradient(circle at 50% -10%,#29365b 0,#101322 48%);
-  font-family:system-ui,-apple-system,sans-serif;
-  color:#f4f6ff;
   min-height:100vh;
+  color:var(--text);
+  font-family:system-ui,-apple-system,sans-serif;
+  background:
+    radial-gradient(ellipse at 15% 0%,#12334c88,transparent 38%),
+    radial-gradient(ellipse at 100% 35%,#38205a66,transparent 40%),
+    var(--bg);
 }
+
+button {font:inherit;cursor:pointer;}
 
 .wrap {
   max-width:620px;
   margin:auto;
-  padding:24px 18px 34px;
+  padding:22px 17px 35px;
 }
 
 .top {
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  margin:8px 2px 26px;
+  align-items:center;
+  margin:8px 2px 34px;
 }
 
 .mark {
   font-size:12px;
-  letter-spacing:2px;
+  font-weight:900;
+  letter-spacing:2.5px;
   color:var(--cyan);
-  font-weight:800;
+  text-shadow:0 0 14px #54e5ff77;
+}
+
+.top-sub {
+  font-size:10px;
+  letter-spacing:1.4px;
+  color:var(--muted);
+  margin-top:5px;
 }
 
 .orb {
-  width:46px;
-  height:46px;
-  border-radius:16px;
-  background:linear-gradient(135deg,#67d9ee,#9177ff);
+  width:49px;
+  height:49px;
+  border-radius:17px;
   display:grid;
   place-items:center;
-  color:#101322;
-  font-size:23px;
-  box-shadow:0 0 28px #6bd5ed55;
+  font-size:25px;
+  color:#07101c;
+  background:linear-gradient(135deg,var(--cyan),var(--purple));
+  box-shadow:0 0 20px #54e5ff55,0 0 40px #a58aff33;
 }
 
 h1 {
-  font-size:30px;
-  line-height:1.1;
-  margin:0 0 8px;
+  font-size:34px;
+  line-height:1.08;
+  letter-spacing:-1px;
+  margin:0 0 10px;
+}
+
+h1 span {
+  background:linear-gradient(90deg,var(--cyan),var(--purple));
+  background-clip:text;
+  -webkit-background-clip:text;
+  color:transparent;
 }
 
 .sub {
   color:var(--muted);
   font-size:14px;
-  margin-bottom:24px;
+  line-height:1.5;
+  margin-bottom:27px;
 }
 
 .hero {
-  padding:22px;
-  border:1px solid #52648c88;
-  border-radius:24px;
-  background:linear-gradient(135deg,#263656cc,#282343cc);
-  box-shadow:0 12px 40px #0005;
-  margin-bottom:22px;
+  position:relative;
+  overflow:hidden;
+  padding:23px;
+  border:1px solid #54e5ff55;
+  border-radius:25px;
+  background:
+    radial-gradient(circle at 100% 0%,#7754c044,transparent 48%),
+    linear-gradient(135deg,#132d43,#17172e 75%);
+  box-shadow:0 12px 35px #0006,0 0 25px #54e5ff12;
+  margin-bottom:29px;
+}
+
+.hero:after {
+  content:"✦";
+  position:absolute;
+  right:19px;
+  top:14px;
+  font-size:75px;
+  color:#54e5ff18;
 }
 
 .eyebrow {
   color:var(--cyan);
-  font-size:11px;
-  letter-spacing:1.8px;
-  font-weight:800;
+  font-size:10px;
+  letter-spacing:2px;
+  font-weight:900;
 }
 
 .hero h2 {
-  font-size:21px;
-  margin:8px 0;
+  font-size:23px;
+  margin:12px 0 8px;
 }
 
 .hero p {
-  color:#c4cce0;
+  color:#b7c5dd;
   font-size:13px;
-  line-height:1.5;
-  margin:0 0 16px;
+  line-height:1.6;
+  margin:0 0 19px;
+  max-width:340px;
 }
-
-button { font:inherit; }
 
 .primary {
   border:0;
   border-radius:14px;
-  padding:12px 16px;
-  background:linear-gradient(100deg,#6bd9eb,#a58bff);
-  color:#111629;
-  font-weight:800;
+  padding:13px 18px;
+  color:#08111e;
+  font-weight:900;
+  background:linear-gradient(100deg,var(--cyan),var(--purple));
+  box-shadow:0 0 20px #54e5ff33;
+  transition:.2s;
 }
 
+.primary:active {transform:scale(.96);}
+
 .section {
-  font-size:12px;
-  letter-spacing:1.6px;
-  color:var(--muted);
-  font-weight:800;
-  margin:25px 2px 12px;
+  font-size:11px;
+  letter-spacing:2px;
+  color:#a8b7d4;
+  font-weight:900;
+  margin:29px 3px 13px;
 }
 
 .rooms {
@@ -125,194 +166,245 @@ button { font:inherit; }
 }
 
 .room {
-  background:#1a2034;
-  border:1px solid var(--line);
-  border-radius:19px;
-  padding:17px 15px;
-  min-height:126px;
+  position:relative;
+  overflow:hidden;
   text-align:left;
-  color:#f4f6ff;
+  color:var(--text);
+  min-height:137px;
+  padding:17px 15px;
+  border-radius:19px;
+  border:1px solid var(--line);
+  background:linear-gradient(145deg,#17233a,#101729);
+  box-shadow:0 8px 20px #0003;
+  transition:transform .2s,border-color .2s,box-shadow .2s;
 }
 
-.room:active { transform:scale(.98); }
+.room:before {
+  content:"";
+  position:absolute;
+  width:75px;
+  height:75px;
+  right:-35px;
+  top:-35px;
+  border-radius:50%;
+  background:#54e5ff18;
+  filter:blur(5px);
+}
 
-.emoji { font-size:25px; }
+.room:active {
+  transform:scale(.97);
+  border-color:var(--cyan);
+  box-shadow:0 0 18px #54e5ff22;
+}
+
+.emoji {
+  font-size:27px;
+  filter:drop-shadow(0 0 8px #54e5ff55);
+}
 
 .room b {
   display:block;
-  margin:10px 0 4px;
+  margin:12px 0 5px;
   font-size:15px;
 }
 
 .room small {
-  color:var(--muted);
-  font-size:12px;
-  line-height:1.35;
   display:block;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.4;
 }
 
 .panel {
   display:none;
-  background:#1a2034;
+  margin-top:19px;
   border:1px solid var(--line);
-  border-radius:20px;
-  padding:18px;
-  margin-top:18px;
+  border-radius:22px;
+  background:linear-gradient(145deg,#151e32,#0f1627);
+  overflow:hidden;
+  box-shadow:0 12px 35px #0005;
 }
 
-.panel.active { display:block; }
+.panel.active {
+  display:block;
+  animation:appear .25s ease;
+}
 
-.panel h3 { margin:0 0 8px; }
+@keyframes appear {
+  from {opacity:0;transform:translateY(9px);}
+  to {opacity:1;transform:translateY(0);}
+}
+
+.panel-content {padding:19px;}
+
+.panel h3 {margin:0 0 9px;font-size:19px;}
 
 .panel p {
-  color:#c1c9dd;
+  color:#b5c1d9;
   font-size:13px;
-  line-height:1.5;
+  line-height:1.6;
 }
 
 .link {
   display:inline-block;
-  margin:6px 6px 0 0;
-  padding:10px 12px;
+  margin:5px 5px 4px 0;
+  padding:11px 13px;
+  border:1px solid #344a6a;
   border-radius:12px;
-  background:#293653;
+  background:#1a2b43;
   color:#dffaff;
   text-decoration:none;
-  font-size:13px;
+  font-size:12px;
 }
 
 textarea {
   width:100%;
   min-height:120px;
-  background:#101729;
-  border:1px solid #3a496d;
+  background:#0a1120;
+  border:1px solid #344766;
   border-radius:14px;
-  padding:12px;
+  padding:13px;
   color:white;
   font:inherit;
+  outline:none;
   resize:vertical;
 }
 
+textarea:focus {
+  border-color:var(--cyan);
+  box-shadow:0 0 12px #54e5ff22;
+}
+
 .save {
-  margin-top:9px;
-  border:1px solid #53658b;
-  background:#293653;
-  color:white;
+  margin-top:10px;
+  border:1px solid #42607b;
+  background:#1c344a;
+  color:var(--cyan);
   border-radius:12px;
-  padding:10px 14px;
+  padding:11px 15px;
+  font-weight:700;
 }
 
 .foot {
   text-align:center;
-  color:#74809e;
-  font-size:11px;
-  margin-top:28px;
+  color:#65738f;
+  font-size:10px;
+  letter-spacing:1.5px;
+  margin-top:31px;
 }
 
-/* AI ROOM */
+/* AI CHAT */
 
-.chat-panel {
-  padding:0;
-  overflow:hidden;
-}
+.chat-panel {padding:0;}
 
 .chat-head {
-  padding:18px;
-  background:linear-gradient(135deg,#263656,#282343);
+  padding:21px;
+  background:
+    radial-gradient(circle at 100% 0%,#7555b955,transparent 50%),
+    linear-gradient(120deg,#12334a,#1b1937);
   border-bottom:1px solid var(--line);
 }
 
 .assistant-icon {
-  width:48px;
-  height:48px;
-  border-radius:16px;
+  width:51px;
+  height:51px;
+  border-radius:17px;
   display:grid;
   place-items:center;
-  background:linear-gradient(135deg,#63d8ee,#a58bff);
-  color:#101322;
-  font-size:24px;
-  margin-bottom:12px;
+  background:linear-gradient(135deg,var(--cyan),var(--purple));
+  color:#07111d;
+  font-size:27px;
+  box-shadow:0 0 22px #54e5ff44;
+  margin-bottom:13px;
 }
 
-.chat-head h3 { margin:0 0 5px; }
+.chat-head h3 {margin:0 0 5px;}
 
 .status {
-  font-size:12px;
-  color:#79dfc6;
+  font-size:11px;
+  color:var(--green);
 }
 
 .chat-messages {
   height:340px;
   overflow-y:auto;
-  padding:16px;
+  padding:17px;
   display:flex;
   flex-direction:column;
-  gap:12px;
+  gap:13px;
 }
 
 .message {
   max-width:88%;
   padding:12px 14px;
   border-radius:16px;
-  font-size:14px;
-  line-height:1.5;
+  font-size:13px;
+  line-height:1.55;
   white-space:pre-wrap;
   overflow-wrap:anywhere;
 }
 
 .message.assistant {
-  align-self:flex:flex-start;
-  background:#293653;
-  border:1px solid #39496b;
+  align-self:flex-start;
+  background:#1c2b43;
+  border:1px solid #354968;
+  border-bottom-left-radius:5px;
 }
 
 .message.user {
   align-self:flex-end;
-  background:linear-gradient(135deg,#47638d,#66539a);
+  background:linear-gradient(135deg,#285a79,#59458d);
+  border:1px solid #7185c5;
+  border-bottom-right-radius:5px;
 }
 
 .chat-note {
-  padding:0 16px 12px;
-  color:#8793b2;
-  font-size:11px;
+  padding:0 17px 13px;
+  color:#7e8eac;
+  font-size:10px;
   line-height:1.5;
 }
 
 .chat-input-area {
   padding:14px;
   border-top:1px solid var(--line);
-  background:#141a2b;
+  background:#0c1423;
 }
 
 .chat-input-row {
   display:flex;
-  gap:8px;
+  gap:9px;
   align-items:flex-end;
 }
 
 .chat-input {
   flex:1;
   min-width:0;
-  min-height:44px;
+  min-height:45px;
   max-height:110px;
   resize:vertical;
-  border:1px solid #3a496d;
-  background:#101729;
+  border:1px solid #344766;
+  background:#080f1d;
   color:white;
   border-radius:14px;
   padding:11px;
   font:inherit;
+  outline:none;
 }
+
+.chat-input:focus {border-color:var(--cyan);}
 
 .send-btn {
   border:0;
   width:46px;
   height:46px;
+  flex-shrink:0;
   border-radius:14px;
-  background:linear-gradient(135deg,#63d8ee,#a58bff);
-  color:#101322;
-  font-size:20px;
+  background:linear-gradient(135deg,var(--cyan),var(--purple));
+  color:#08111e;
+  font-size:21px;
   font-weight:bold;
+  box-shadow:0 0 15px #54e5ff33;
 }
 
 .chat-actions {
@@ -323,18 +415,20 @@ textarea {
 }
 
 .secondary-btn {
-  border:1px solid #465578;
+  border:1px solid #344766;
   border-radius:12px;
-  background:#222c45;
-  color:#dce6ff;
+  background:#17243a;
+  color:#c9d8f2;
   padding:10px 12px;
-  font-size:12px;
+  font-size:11px;
 }
 
 @media(max-width:380px) {
-  .rooms { gap:8px; }
-  .room { padding:13px 11px; }
-  .chat-messages { height:300px; }
+  .wrap {padding:18px 13px 30px;}
+  h1 {font-size:30px;}
+  .rooms {gap:9px;}
+  .room {padding:14px 11px;}
+  .chat-messages {height:300px;}
 }
 </style>
 </head>
@@ -345,29 +439,27 @@ textarea {
   <div class="top">
     <div>
       <div class="mark">ASEEV DIGITAL SPACE</div>
-      <div style="font-size:12px;color:#aab3cc;margin-top:4px">
-        ТВОЙ ЛИЧНЫЙ ЦИФРОВОЙ ДОМ
-      </div>
+      <div class="top-sub">ТВОЙ ЛИЧНЫЙ ЦИФРОВОЙ ДОМ</div>
     </div>
     <div class="orb">⌂</div>
   </div>
 
-  <h1>Добро пожаловать<br>домой.</h1>
-  <div class="sub">Тихое место для идей, игр и полезных дел.</div>
+  <h1>Добро пожаловать<br><span>домой.</span></h1>
+  <div class="sub">Твоё пространство. Твои идеи. Твои возможности.</div>
 
   <div class="hero">
-    <div class="eyebrow">ГЛАВНАЯ КОМНАТА</div>
+    <div class="eyebrow">✦ ГЛАВНАЯ КОМНАТА</div>
     <h2>Твой AI-помощник</h2>
     <p>
-      Добро пожаловать в нашу цифровую комнату.
-      Здесь начинается общение и работа над идеями.
+      Твой личный цифровой помощник.
+      Здесь будут рождаться идеи, планы и новые возможности.
     </p>
     <button class="primary" onclick="openAssistant()">
       Открыть помощника ✨
     </button>
   </div>
 
-  <div class="section">КОМНАТЫ ДОМА</div>
+  <div class="section">◈ КОМНАТЫ ДОМА</div>
 
   <div class="rooms">
     <button class="room" onclick="show('gaming')">
@@ -379,7 +471,7 @@ textarea {
     <button class="room" onclick="show('ideas')">
       <span class="emoji">💡</span>
       <b>Комната идей</b>
-      <small>Личные заметки и задумки</small>
+      <small>Заметки и задумки</small>
     </button>
 
     <button class="room" onclick="show('workshop')">
@@ -398,7 +490,6 @@ textarea {
   <!-- AI ROOM -->
 
   <div id="assistant" class="panel chat-panel">
-
     <div class="chat-head">
       <div class="assistant-icon">✦</div>
       <h3>AI-помощник</h3>
@@ -408,8 +499,7 @@ textarea {
     <div id="messages" class="chat-messages"></div>
 
     <div class="chat-note">
-      Пока это локальный интерфейс чата.
-      Настоящий ИИ подключим следующим этапом.
+      Локальный тестовый режим. Подключение настоящего ИИ запланировано.
     </div>
 
     <div class="chat-input-area">
@@ -420,7 +510,6 @@ textarea {
           rows="1"
           placeholder="Напиши сообщение..."
         ></textarea>
-
         <button class="send-btn" onclick="sendMessage()">➤</button>
       </div>
     </div>
@@ -429,50 +518,57 @@ textarea {
       <button class="secondary-btn" onclick="clearChat()">Очистить диалог</button>
       <button class="secondary-btn" onclick="goHome()">⌂ Домой</button>
     </div>
-
   </div>
 
   <!-- GAMING -->
 
   <div id="gaming" class="panel">
-    <h3>🎮 Игровая</h3>
-    <p>Твоя творческая база для стримов и игрового сообщества.</p>
-    <a class="link" href="https://www.youtube.com/@AseevChannel">YouTube-канал ↗</a>
-    <a class="link" href="https://studio.youtube.com/">YouTube Studio ↗</a>
+    <div class="panel-content">
+      <h3>🎮 Игровая</h3>
+      <p>Твоя творческая база для стримов и игрового сообщества.</p>
+      <a class="link" href="https://www.youtube.com/@AseevChannel">YouTube-канал ↗</a>
+      <a class="link" href="https://studio.youtube.com/">YouTube Studio ↗</a>
+    </div>
   </div>
 
   <!-- IDEAS -->
 
   <div id="ideas" class="panel">
-    <h3>💡 Комната идей</h3>
-    <p>Записывай задумки. Заметки сохраняются на этом устройстве.</p>
-    <textarea id="notes" placeholder="Напиши свою идею..."></textarea>
-    <button class="save" onclick="saveNotes()">Сохранить заметки</button>
-    <div id="saved" style="font-size:12px;color:#79dfc6;margin-top:8px"></div>
+    <div class="panel-content">
+      <h3>💡 Комната идей</h3>
+      <p>Записывай задумки. Заметки сохраняются на этом устройстве.</p>
+      <textarea id="notes" placeholder="Напиши свою идею..."></textarea>
+      <button class="save" onclick="saveNotes()">Сохранить заметки</button>
+      <div id="saved" style="font-size:12px;color:#65e6b7;margin-top:9px"></div>
+    </div>
   </div>
 
   <!-- WORKSHOP -->
 
   <div id="workshop" class="panel">
-    <h3>🛠️ Мастерская</h3>
-    <p>
-      Полезные системные разделы Android.
-      Изменения настроек выполняй сам и проверяй,
-      что именно разрешаешь приложениям.
-    </p>
-    <a class="link" href="https://support.google.com/android/">Справка Android ↗</a>
+    <div class="panel-content">
+      <h3>🛠️ Мастерская</h3>
+      <p>
+        Полезные системные разделы Android.
+        Изменения настроек выполняй сам и проверяй,
+        что именно разрешаешь приложениям.
+      </p>
+      <a class="link" href="https://support.google.com/android/">Справка Android ↗</a>
+    </div>
   </div>
 
   <!-- LIBRARY -->
 
   <div id="library" class="panel">
-    <h3>📚 Библиотека</h3>
-    <p>Сохраняй важные ссылки и возвращайся к ним, когда понадобится.</p>
-    <a class="link" href="https://help.openai.com/">Справка ChatGPT ↗</a>
+    <div class="panel-content">
+      <h3>📚 Библиотека</h3>
+      <p>Сохраняй важные ссылки и возвращайся к ним, когда понадобится.</p>
+      <a class="link" href="https://help.openai.com/">Справка ChatGPT ↗</a>
+    </div>
   </div>
 
   <div class="foot">
-    ASEEV AI HOME · версия 1.1
+    ASEEV AI HOME · NEON FUTURE · VERSION 2.0
   </div>
 
 </div>
@@ -491,7 +587,9 @@ function show(id) {
 }
 
 function closeAllPanels() {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p =>
+    p.classList.remove('active')
+  );
 }
 
 function openAssistant() {
@@ -508,33 +606,44 @@ function goHome() {
 
 const notes = document.getElementById('notes');
 
-notes.value = localStorage.getItem('aseev_home_notes') || '';
+try {
+  notes.value = localStorage.getItem('aseev_home_notes') || '';
+} catch(e) {
+  notes.value = '';
+}
 
 function saveNotes() {
-  localStorage.setItem('aseev_home_notes',notes.value);
-  document.getElementById('saved').textContent =
-    'Сохранено на этом устройстве ✓';
+  try {
+    localStorage.setItem('aseev_home_notes',notes.value);
+    document.getElementById('saved').textContent =
+      'Сохранено на этом устройстве ✓';
+  } catch(e) {
+    document.getElementById('saved').textContent =
+      'Не удалось сохранить заметки';
+  }
 }
 
 // CHAT STORAGE
 
 const messages = document.getElementById('messages');
 
+function getHistory() {
+  try {
+    return JSON.parse(localStorage.getItem('aseev_ai_chat') || '[]');
+  } catch(e) {
+    return [];
+  }
+}
+
 function loadChat() {
   messages.innerHTML = '';
-
-  let history = [];
-
-  try {
-    history = JSON.parse(localStorage.getItem('aseev_ai_chat') || '[]');
-  } catch(e) {
-    history = [];
-  }
+  const history = getHistory();
 
   if (history.length === 0) {
     addMessage(
       'assistant',
-      'Привет! 👋\\n\\nЯ нахожусь в твоём цифровом доме. Интерфейс общения уже готов. В следующем этапе мы подключим настоящий искусственный интеллект.'
+      'Привет! 👋\n\nЯ нахожусь в твоём цифровом доме. Интерфейс общения уже готов. В следующем этапе мы подключим настоящий искусственный интеллект.',
+      false
     );
     return;
   }
@@ -547,21 +656,17 @@ function addMessage(role,text,save=true) {
   div.className = 'message ' + role;
   div.textContent = text;
   messages.appendChild(div);
-
   messages.scrollTop = messages.scrollHeight;
 
   if (save) {
     const history = getHistory();
     history.push({role,text});
-    localStorage.setItem('aseev_ai_chat',JSON.stringify(history));
-  }
-}
 
-function getHistory() {
-  try {
-    return JSON.parse(localStorage.getItem('aseev_ai_chat') || '[]');
-  } catch(e) {
-    return [];
+    try {
+      localStorage.setItem('aseev_ai_chat',JSON.stringify(history));
+    } catch(e) {
+      console.log('Не удалось сохранить историю чата',e);
+    }
   }
 }
 
@@ -577,13 +682,17 @@ function sendMessage() {
   setTimeout(() => {
     addMessage(
       'assistant',
-      'Я получил твоё сообщение! 😊\\n\\nПока мой интерфейс работает в тестовом режиме. Настоящий ИИ мы подключим следующим этапом.'
+      'Я получил твоё сообщение! 😊\n\nПока мой интерфейс работает в тестовом режиме. Настоящий ИИ мы подключим следующим этапом.'
     );
   },400);
 }
 
 function clearChat() {
-  localStorage.removeItem('aseev_ai_chat');
+  try {
+    localStorage.removeItem('aseev_ai_chat');
+  } catch(e) {
+    console.log('Не удалось очистить историю',e);
+  }
   loadChat();
 }
 
