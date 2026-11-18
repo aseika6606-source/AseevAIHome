@@ -393,6 +393,11 @@ textarea:focus {
 
 .chat-input:focus {border-color:var(--cyan);}
 
+.send-btn:disabled {
+  opacity:.55;
+  cursor:wait;
+}
+
 .send-btn {
   border:0;
   width:46px;
@@ -677,8 +682,8 @@ textarea:focus {
 
     <div id="messages" class="chat-messages"></div>
 
-    <div class="chat-note">
-      Локальный тестовый режим. Подключение настоящего ИИ запланировано.
+    <div id="chatStatus" class="chat-note" aria-live="polite">
+      Ася подключается через домашнюю сеть. Компьютер с запущенным Aseev AI Core должен быть включён.
     </div>
 
     <div class="chat-input-area">
@@ -1300,9 +1305,16 @@ restoreBackupButton.addEventListener('click', restoreBackup);
 // Запуск системы памяти
 loadMemory();
 
-// CHAT STORAGE
+// CHAT STORAGE + ASEEV AI CORE
 
 const messages = document.getElementById('messages');
+const chatStatus = document.getElementById('chatStatus');
+const chatInput = document.getElementById('chatInput');
+const sendButton = document.querySelector('.send-btn');
+
+// Адрес компьютера в домашней сети. Если IP компьютера изменится,
+// обнови адрес здесь.
+const AI_CHAT_URL = 'http://192.168.31.229:8000/chat';
 
 function getHistory() {
   try {
@@ -1323,7 +1335,7 @@ function loadChat() {
   if (history.length === 0) {
     addMessage(
       'assistant',
-      'Привет! 👋\n\nЯ нахожусь в твоём цифровом доме. Интерфейс общения уже готов. В следующем этапе мы подключим настоящий искусственный интеллект.',
+      'Привет! 👋\n\nЯ Ася — локальный помощник Aseev AI Home. Напиши мне, и я отвечу через ИИ, работающий на твоём компьютере.',
       false
     );
     return;
@@ -1344,28 +1356,67 @@ function addMessage(role,text,save=true) {
     history.push({role,text});
 
     try {
-      localStorage.setItem('aseev_ai_chat',JSON.stringify(history));
+      // Храним последние 100 сообщений, чтобы локальное хранилище не росло бесконечно.
+      localStorage.setItem('aseev_ai_chat',JSON.stringify(history.slice(-100)));
     } catch(e) {
       console.log('Не удалось сохранить историю чата',e);
     }
   }
 }
 
-function sendMessage() {
-  const input = document.getElementById('chatInput');
-  const text = input.value.trim();
+async function sendMessage() {
+  const text = chatInput.value.trim();
 
-  if (!text) return;
+  if (!text || sendButton.disabled) return;
 
   addMessage('user',text);
-  input.value = '';
+  chatInput.value = '';
+  sendButton.disabled = true;
+  chatStatus.textContent = 'Ася думает…';
 
-  setTimeout(() => {
+  try {
+    const history = getHistory().slice(-20);
+
+    const response = await fetch(AI_CHAT_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        message: text,
+        history: history
+      })
+    });
+
+    if (!response.ok) {
+      let detail = 'HTTP ' + response.status;
+      try {
+        const errorData = await response.json();
+        if (errorData.detail) detail = errorData.detail;
+      } catch(e) {}
+      throw new Error(detail);
+    }
+
+    const data = await response.json();
+
+    if (!data || typeof data.reply !== 'string') {
+      throw new Error('Сервер вернул ответ в неожиданном формате.');
+    }
+
+    addMessage('assistant',data.reply);
+    chatStatus.textContent = '● Ася на связи · ' + (data.model || 'локальная модель');
+  } catch(error) {
+    console.error('Ошибка связи с Асей:',error);
     addMessage(
       'assistant',
-      'Я получил твоё сообщение! 😊\n\nПока мой интерфейс работает в тестовом режиме. Настоящий ИИ мы подключим следующим этапом.'
+      'Не удалось связаться с Асей. Проверь, что компьютер включён, Aseev AI Core запущен и телефон подключён к той же Wi-Fi сети.\n\nПодробности: ' + error.message,
+      false
     );
-  },400);
+    chatStatus.textContent = '● Нет соединения с Асей';
+  } finally {
+    sendButton.disabled = false;
+    chatInput.focus();
+  }
 }
 
 function clearChat() {
@@ -1375,6 +1426,7 @@ function clearChat() {
     console.log('Не удалось очистить историю',e);
   }
   loadChat();
+  chatStatus.textContent = 'История диалога очищена. Ася готова к новому разговору.';
 }
 
 // ENTER TO SEND

@@ -1,0 +1,1390 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080b16">
+<title>Aseev AI Home</title>
+
+<style>
+:root {
+  --bg:#080b16;
+  --panel:#11182a;
+  --panel2:#151d33;
+  --line:#263653;
+  --cyan:#54e5ff;
+  --purple:#a58aff;
+  --muted:#929fbd;
+  --text:#f3f6ff;
+  --green:#65e6b7;
+}
+
+* {box-sizing:border-box;}
+
+body {
+  margin:0;
+  min-height:100vh;
+  color:var(--text);
+  font-family:system-ui,-apple-system,sans-serif;
+  background:
+    radial-gradient(ellipse at 15% 0%,#12334c88,transparent 38%),
+    radial-gradient(ellipse at 100% 35%,#38205a66,transparent 40%),
+    var(--bg);
+}
+
+button {font:inherit;cursor:pointer;}
+
+.wrap {
+  max-width:620px;
+  margin:auto;
+  padding:22px 17px 35px;
+}
+
+.top {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin:8px 2px 34px;
+}
+
+.mark {
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:2.5px;
+  color:var(--cyan);
+  text-shadow:0 0 14px #54e5ff77;
+}
+
+.top-sub {
+  font-size:10px;
+  letter-spacing:1.4px;
+  color:var(--muted);
+  margin-top:5px;
+}
+
+.orb {
+  width:49px;
+  height:49px;
+  border-radius:17px;
+  display:grid;
+  place-items:center;
+  font-size:25px;
+  color:#07101c;
+  background:linear-gradient(135deg,var(--cyan),var(--purple));
+  box-shadow:0 0 20px #54e5ff55,0 0 40px #a58aff33;
+}
+
+h1 {
+  font-size:34px;
+  line-height:1.08;
+  letter-spacing:-1px;
+  margin:0 0 10px;
+}
+
+h1 span {
+  background:linear-gradient(90deg,var(--cyan),var(--purple));
+  background-clip:text;
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.sub {
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.5;
+  margin-bottom:27px;
+}
+
+.hero {
+  position:relative;
+  overflow:hidden;
+  padding:23px;
+  border:1px solid #54e5ff55;
+  border-radius:25px;
+  background:
+    radial-gradient(circle at 100% 0%,#7754c044,transparent 48%),
+    linear-gradient(135deg,#132d43,#17172e 75%);
+  box-shadow:0 12px 35px #0006,0 0 25px #54e5ff12;
+  margin-bottom:29px;
+}
+
+.hero:after {
+  content:"✦";
+  position:absolute;
+  right:19px;
+  top:14px;
+  font-size:75px;
+  color:#54e5ff18;
+}
+
+.eyebrow {
+  color:var(--cyan);
+  font-size:10px;
+  letter-spacing:2px;
+  font-weight:900;
+}
+
+.hero h2 {
+  font-size:23px;
+  margin:12px 0 8px;
+}
+
+.hero p {
+  color:#b7c5dd;
+  font-size:13px;
+  line-height:1.6;
+  margin:0 0 19px;
+  max-width:340px;
+}
+
+.primary {
+  border:0;
+  border-radius:14px;
+  padding:13px 18px;
+  color:#08111e;
+  font-weight:900;
+  background:linear-gradient(100deg,var(--cyan),var(--purple));
+  box-shadow:0 0 20px #54e5ff33;
+  transition:.2s;
+}
+
+.primary:active {transform:scale(.96);}
+
+.section {
+  font-size:11px;
+  letter-spacing:2px;
+  color:#a8b7d4;
+  font-weight:900;
+  margin:29px 3px 13px;
+}
+
+.rooms {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.room {
+  position:relative;
+  overflow:hidden;
+  text-align:left;
+  color:var(--text);
+  min-height:137px;
+  padding:17px 15px;
+  border-radius:19px;
+  border:1px solid var(--line);
+  background:linear-gradient(145deg,#17233a,#101729);
+  box-shadow:0 8px 20px #0003;
+  transition:transform .2s,border-color .2s,box-shadow .2s;
+}
+
+.room:before {
+  content:"";
+  position:absolute;
+  width:75px;
+  height:75px;
+  right:-35px;
+  top:-35px;
+  border-radius:50%;
+  background:#54e5ff18;
+  filter:blur(5px);
+}
+
+.room:active {
+  transform:scale(.97);
+  border-color:var(--cyan);
+  box-shadow:0 0 18px #54e5ff22;
+}
+
+.emoji {
+  font-size:27px;
+  filter:drop-shadow(0 0 8px #54e5ff55);
+}
+
+.room b {
+  display:block;
+  margin:12px 0 5px;
+  font-size:15px;
+}
+
+.room small {
+  display:block;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.4;
+}
+
+.panel {
+  display:none;
+  margin-top:19px;
+  border:1px solid var(--line);
+  border-radius:22px;
+  background:linear-gradient(145deg,#151e32,#0f1627);
+  overflow:hidden;
+  box-shadow:0 12px 35px #0005;
+}
+
+.panel.active {
+  display:block;
+  animation:appear .25s ease;
+}
+
+@keyframes appear {
+  from {opacity:0;transform:translateY(9px);}
+  to {opacity:1;transform:translateY(0);}
+}
+
+.panel-content {padding:19px;}
+
+.panel h3 {margin:0 0 9px;font-size:19px;}
+
+.panel p {
+  color:#b5c1d9;
+  font-size:13px;
+  line-height:1.6;
+}
+
+.link {
+  display:inline-block;
+  margin:5px 5px 4px 0;
+  padding:11px 13px;
+  border:1px solid #344a6a;
+  border-radius:12px;
+  background:#1a2b43;
+  color:#dffaff;
+  text-decoration:none;
+  font-size:12px;
+}
+
+textarea {
+  width:100%;
+  min-height:120px;
+  background:#0a1120;
+  border:1px solid #344766;
+  border-radius:14px;
+  padding:13px;
+  color:white;
+  font:inherit;
+  outline:none;
+  resize:vertical;
+}
+
+textarea:focus {
+  border-color:var(--cyan);
+  box-shadow:0 0 12px #54e5ff22;
+}
+
+.save {
+  margin-top:10px;
+  border:1px solid #42607b;
+  background:#1c344a;
+  color:var(--cyan);
+  border-radius:12px;
+  padding:11px 15px;
+  font-weight:700;
+}
+
+.foot {
+  text-align:center;
+  color:#65738f;
+  font-size:10px;
+  letter-spacing:1.5px;
+  margin-top:31px;
+}
+
+/* AI CHAT */
+
+.chat-panel {padding:0;}
+
+.chat-head {
+  padding:21px;
+  background:
+    radial-gradient(circle at 100% 0%,#7555b955,transparent 50%),
+    linear-gradient(120deg,#12334a,#1b1937);
+  border-bottom:1px solid var(--line);
+}
+
+.assistant-icon {
+  width:51px;
+  height:51px;
+  border-radius:17px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,var(--cyan),var(--purple));
+  color:#07111d;
+  font-size:27px;
+  box-shadow:0 0 22px #54e5ff44;
+  margin-bottom:13px;
+}
+
+.chat-head h3 {margin:0 0 5px;}
+
+.status {
+  font-size:11px;
+  color:var(--green);
+}
+
+.chat-messages {
+  height:340px;
+  overflow-y:auto;
+  padding:17px;
+  display:flex;
+  flex-direction:column;
+  gap:13px;
+}
+
+.message {
+  max-width:88%;
+  padding:12px 14px;
+  border-radius:16px;
+  font-size:13px;
+  line-height:1.55;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+
+.message.assistant {
+  align-self:flex-start;
+  background:#1c2b43;
+  border:1px solid #354968;
+  border-bottom-left-radius:5px;
+}
+
+.message.user {
+  align-self:flex-end;
+  background:linear-gradient(135deg,#285a79,#59458d);
+  border:1px solid #7185c5;
+  border-bottom-right-radius:5px;
+}
+
+.chat-note {
+  padding:0 17px 13px;
+  color:#7e8eac;
+  font-size:10px;
+  line-height:1.5;
+}
+
+.chat-input-area {
+  padding:14px;
+  border-top:1px solid var(--line);
+  background:#0c1423;
+}
+
+.chat-input-row {
+  display:flex;
+  gap:9px;
+  align-items:flex-end;
+}
+
+.chat-input {
+  flex:1;
+  min-width:0;
+  min-height:45px;
+  max-height:110px;
+  resize:vertical;
+  border:1px solid #344766;
+  background:#080f1d;
+  color:white;
+  border-radius:14px;
+  padding:11px;
+  font:inherit;
+  outline:none;
+}
+
+.chat-input:focus {border-color:var(--cyan);}
+
+.send-btn {
+  border:0;
+  width:46px;
+  height:46px;
+  flex-shrink:0;
+  border-radius:14px;
+  background:linear-gradient(135deg,var(--cyan),var(--purple));
+  color:#08111e;
+  font-size:21px;
+  font-weight:bold;
+  box-shadow:0 0 15px #54e5ff33;
+}
+
+.chat-actions {
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  padding:12px 14px;
+}
+
+.secondary-btn {
+  border:1px solid #344766;
+  border-radius:12px;
+  background:#17243a;
+  color:#c9d8f2;
+  padding:10px 12px;
+  font-size:11px;
+}
+
+/* ASEEV MEMORY */
+
+.memory-tools {
+  display:grid;
+  gap:10px;
+  margin:16px 0;
+}
+
+.memory-field {
+  width:100%;
+  min-width:0;
+  padding:12px 13px;
+  color:var(--text);
+  background:#0a1120;
+  border:1px solid #344766;
+  border-radius:12px;
+  font:inherit;
+  outline:none;
+}
+
+.memory-field:focus {
+  border-color:var(--cyan);
+  box-shadow:0 0 12px #54e5ff22;
+}
+
+.memory-tools textarea {
+  min-height:105px;
+}
+
+.memory-row {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+
+.memory-actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.memory-btn {
+  padding:10px 13px;
+  border:1px solid #344766;
+  border-radius:11px;
+  background:#17243a;
+  color:#d9e8ff;
+  font-size:12px;
+}
+
+.memory-btn.primary-memory {
+  color:#08111e;
+  font-weight:800;
+  border:0;
+  background:linear-gradient(100deg,var(--cyan),var(--purple));
+}
+
+.memory-btn:active {
+  transform:scale(.97);
+}
+
+.memory-list {
+  display:grid;
+  gap:11px;
+  margin-top:17px;
+}
+
+.memory-card {
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:15px;
+  background:linear-gradient(145deg,#19263d,#10192b);
+}
+
+.memory-card.pinned {
+  border-color:#54e5ff88;
+  box-shadow:0 0 13px #54e5ff12;
+}
+
+.memory-card h4 {
+  margin:0 0 7px;
+  font-size:15px;
+  overflow-wrap:anywhere;
+}
+
+.memory-card p {
+  margin:0;
+  color:#b5c1d9;
+  font-size:12px;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+
+.memory-meta {
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:10px;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.memory-card-actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:12px;
+}
+
+.memory-card-actions button {
+  padding:7px 10px;
+  border:1px solid #344766;
+  border-radius:9px;
+  background:#1a2b43;
+  color:#cdeaff;
+  font-size:11px;
+}
+
+.memory-empty {
+  padding:20px 12px;
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  border:1px dashed #344766;
+  border-radius:14px;
+}
+
+.memory-status {
+  min-height:18px;
+  margin-top:9px;
+  color:var(--green);
+  font-size:11px;
+}
+
+/* BACKUP */
+
+.backup-box {
+  margin-top:22px;
+  padding:15px;
+  border:1px solid #344766;
+  border-radius:16px;
+  background:linear-gradient(145deg,#14243a,#101729);
+}
+
+.backup-box h4 {
+  margin:0 0 7px;
+  font-size:14px;
+}
+
+.backup-box p {
+  margin:0 0 12px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.5;
+}
+
+.backup-box textarea {
+  min-height:125px;
+  margin-top:10px;
+  font-size:11px;
+  overflow-wrap:anywhere;
+}
+
+.backup-actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.backup-status {
+  min-height:18px;
+  margin-top:10px;
+  color:var(--green);
+  font-size:11px;
+  line-height:1.4;
+}
+
+@media(max-width:380px) {
+  .memory-row {
+    grid-template-columns:1fr;
+  }
+  .wrap {padding:18px 13px 30px;}
+  h1 {font-size:30px;}
+  .rooms {gap:9px;}
+  .room {padding:14px 11px;}
+  .chat-messages {height:300px;}
+  .backup-actions .memory-btn {flex:1 1 100%;}
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <div>
+      <div class="mark">ASEEV DIGITAL SPACE</div>
+      <div class="top-sub">ТВОЙ ЛИЧНЫЙ ЦИФРОВОЙ ДОМ</div>
+    </div>
+    <div class="orb">⌂</div>
+  </div>
+
+  <h1>Добро пожаловать<br><span>домой.</span></h1>
+  <div class="sub">Твоё пространство. Твои идеи. Твои возможности.</div>
+
+  <div class="hero">
+    <div class="eyebrow">✦ ГЛАВНАЯ КОМНАТА</div>
+    <h2>Твой AI-помощник</h2>
+    <p>
+      Твой личный цифровой помощник.
+      Здесь будут рождаться идеи, планы и новые возможности.
+    </p>
+    <button class="primary" onclick="openAssistant()">
+      Открыть помощника ✨
+    </button>
+  </div>
+
+  <div class="section">◈ КОМНАТЫ ДОМА</div>
+
+  <div class="rooms">
+    <button class="room" onclick="show('gaming')">
+      <span class="emoji">🎮</span>
+      <b>Игровая</b>
+      <small>Стримы и Aseev Channel</small>
+    </button>
+
+    <button class="room" onclick="show('ideas')">
+      <span class="emoji">💡</span>
+      <b>Комната идей</b>
+      <small>Заметки и задумки</small>
+    </button>
+
+    <button class="room" onclick="show('workshop')">
+      <span class="emoji">🛠️</span>
+      <b>Мастерская</b>
+      <small>Полезные инструменты</small>
+    </button>
+
+    <button class="room" onclick="show('library')">
+      <span class="emoji">📚</span>
+      <b>Библиотека</b>
+      <small>Ссылки и материалы</small>
+    </button>
+  </div>
+
+  <!-- AI ROOM -->
+  <div id="assistant" class="panel chat-panel">
+    <div class="chat-head">
+      <div class="assistant-icon">✦</div>
+      <h3>AI-помощник</h3>
+      <div class="status">● Комната открыта</div>
+    </div>
+
+    <div id="messages" class="chat-messages"></div>
+
+    <div class="chat-note">
+      Локальный тестовый режим. Подключение настоящего ИИ запланировано.
+    </div>
+
+    <div class="chat-input-area">
+      <div class="chat-input-row">
+        <textarea id="chatInput" class="chat-input" rows="1" placeholder="Напиши сообщение..."></textarea>
+        <button class="send-btn" onclick="sendMessage()">➤</button>
+      </div>
+    </div>
+
+    <div class="chat-actions">
+      <button class="secondary-btn" onclick="clearChat()">Очистить диалог</button>
+      <button class="secondary-btn" onclick="goHome()">⌂ Домой</button>
+    </div>
+  </div>
+
+  <!-- GAMING -->
+  <div id="gaming" class="panel">
+    <div class="panel-content">
+      <h3>🎮 Игровая</h3>
+      <p>Твоя творческая база для стримов и игрового сообщества.</p>
+      <a class="link" href="https://www.youtube.com/@AseevChannel">YouTube-канал ↗</a>
+      <a class="link" href="https://studio.youtube.com/">YouTube Studio ↗</a>
+    </div>
+  </div>
+
+  <!-- IDEAS / ASEEV MEMORY -->
+  <div id="ideas" class="panel">
+    <div class="panel-content">
+      <h3>💡 Aseev Memory</h3>
+      <p>
+        Твоя личная база идей, проектов и важных записей.
+        Всё хранится на этом устройстве.
+      </p>
+
+      <div class="memory-tools">
+        <input id="memoryTitle" class="memory-field" type="text" maxlength="100" placeholder="Название заметки">
+
+        <select id="memoryCategory" class="memory-field">
+          <option value="Идеи">💡 Идеи</option>
+          <option value="Проекты">🚀 Проекты</option>
+          <option value="Задачи">📌 Задачи</option>
+          <option value="Личное">⭐ Личное</option>
+        </select>
+
+        <textarea id="memoryText" class="memory-field" maxlength="10000" placeholder="Напиши свою заметку..."></textarea>
+
+        <div class="memory-actions">
+          <button id="memorySave" class="memory-btn primary-memory" type="button">Сохранить заметку</button>
+          <button id="memoryCancel" class="memory-btn" type="button" hidden>Отмена</button>
+        </div>
+
+        <div id="memoryStatus" class="memory-status"></div>
+
+        <input id="memorySearch" class="memory-field" type="search" placeholder="🔎 Поиск по заметкам...">
+
+        <div class="memory-row">
+          <select id="memoryFilter" class="memory-field">
+            <option value="Все">Все категории</option>
+            <option value="Идеи">💡 Идеи</option>
+            <option value="Проекты">🚀 Проекты</option>
+            <option value="Задачи">📌 Задачи</option>
+            <option value="Личное">⭐ Личное</option>
+          </select>
+
+          <select id="memorySort" class="memory-field">
+            <option value="new">Сначала новые</option>
+            <option value="old">Сначала старые</option>
+            <option value="pinned">Сначала важные</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="section">◈ МОИ ЗАПИСИ</div>
+      <div id="memoryList" class="memory-list"></div>
+
+      <div class="backup-box">
+        <h4>🛡️ Резервная копия Aseev Memory</h4>
+        <p>
+          Создай копию заметок и сохрани её в надёжном месте.
+          Для восстановления вставь сюда ранее созданный JSON-файл.
+        </p>
+
+        <div class="backup-actions">
+          <button id="createBackup" class="memory-btn primary-memory" type="button">Создать копию</button>
+          <button id="copyBackup" class="memory-btn" type="button">Скопировать JSON</button>
+          <button id="restoreBackup" class="memory-btn" type="button">Восстановить заметки</button>
+        </div>
+
+        <textarea id="backupData" spellcheck="false" placeholder="Здесь появится резервная копия. Для восстановления вставь сюда её содержимое..."></textarea>
+        <div id="backupStatus" class="backup-status" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WORKSHOP -->
+  <div id="workshop" class="panel">
+    <div class="panel-content">
+      <h3>🛠️ Мастерская</h3>
+      <p>
+        Полезные системные разделы Android.
+        Изменения настроек выполняй сам и проверяй,
+        что именно разрешаешь приложениям.
+      </p>
+      <a class="link" href="https://support.google.com/android/">Справка Android ↗</a>
+    </div>
+  </div>
+
+  <!-- LIBRARY -->
+  <div id="library" class="panel">
+    <div class="panel-content">
+      <h3>📚 Библиотека</h3>
+      <p>Сохраняй важные ссылки и возвращайся к ним, когда понадобится.</p>
+      <a class="link" href="https://help.openai.com/">Справка ChatGPT ↗</a>
+    </div>
+  </div>
+
+  <div class="foot">
+    ASEEV AI HOME · NEON FUTURE · VERSION 2.1
+  </div>
+
+</div>
+
+<script>
+// ROOMS
+
+function show(id) {
+  closeAllPanels();
+  const panel = document.getElementById(id);
+  if (panel) {
+    panel.classList.add('active');
+    panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+}
+
+function closeAllPanels() {
+  document.querySelectorAll('.panel').forEach(panel => {
+    panel.classList.remove('active');
+  });
+}
+
+function openAssistant() {
+  show('assistant');
+  loadChat();
+}
+
+function goHome() {
+  closeAllPanels();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ASEEV MEMORY
+
+const memoryKey = 'aseev_memory_v1';
+const allowedCategories = ['Идеи','Проекты','Задачи','Личное'];
+
+const memoryTitle = document.getElementById('memoryTitle');
+const memoryCategory = document.getElementById('memoryCategory');
+const memoryText = document.getElementById('memoryText');
+const memoryList = document.getElementById('memoryList');
+const memorySearch = document.getElementById('memorySearch');
+const memoryFilter = document.getElementById('memoryFilter');
+const memorySort = document.getElementById('memorySort');
+const memoryStatus = document.getElementById('memoryStatus');
+const memorySave = document.getElementById('memorySave');
+const memoryCancel = document.getElementById('memoryCancel');
+
+let editingMemoryId = null;
+let memoryItems = [];
+
+function cleanMemoryItem(item, index) {
+  if (!item || typeof item !== 'object') return null;
+
+  const title = typeof item.title === 'string' ? item.title.trim() : '';
+  const text = typeof item.text === 'string' ? item.text : '';
+  const category = allowedCategories.includes(item.category) ? item.category : 'Идеи';
+
+  if (!title || !text.trim()) return null;
+
+  const now = Date.now();
+  const rawId = item.id;
+  const id = (typeof rawId === 'number' && Number.isFinite(rawId)) ||
+             (typeof rawId === 'string' && rawId.length > 0)
+    ? rawId
+    : now + index;
+
+  return {
+    id,
+    title: title.slice(0,100),
+    category,
+    text: text.slice(0,10000),
+    pinned: item.pinned === true,
+    created: Number.isFinite(Number(item.created)) ? Number(item.created) : now,
+    updated: Number.isFinite(Number(item.updated)) ? Number(item.updated) : now
+  };
+}
+
+function loadMemory() {
+  try {
+    const saved = localStorage.getItem(memoryKey);
+
+    if (saved !== null) {
+      const parsed = JSON.parse(saved);
+      memoryItems = Array.isArray(parsed)
+        ? parsed.map(cleanMemoryItem).filter(Boolean)
+        : [];
+    } else {
+      // Перенос старых заметок в новую систему
+      const oldNotes = localStorage.getItem('aseev_home_notes');
+
+      if (oldNotes && oldNotes.trim()) {
+        memoryItems = [{
+          id: Date.now(),
+          title: 'Мои старые заметки',
+          category: 'Идеи',
+          text: oldNotes.slice(0,10000),
+          pinned: true,
+          created: Date.now(),
+          updated: Date.now()
+        }];
+        saveMemoryData();
+      }
+    }
+  } catch(e) {
+    memoryItems = [];
+    memoryStatus.textContent = 'Не удалось загрузить заметки. Данные в хранилище могут быть повреждены.';
+  }
+
+  renderMemory();
+}
+
+function saveMemoryData() {
+  try {
+    localStorage.setItem(memoryKey, JSON.stringify(memoryItems));
+    return true;
+  } catch(e) {
+    memoryStatus.textContent = 'Ошибка сохранения. Проверь свободное место на устройстве.';
+    return false;
+  }
+}
+
+function resetMemoryForm() {
+  editingMemoryId = null;
+  memoryTitle.value = '';
+  memoryText.value = '';
+  memoryCategory.value = 'Идеи';
+  memorySave.textContent = 'Сохранить заметку';
+  memoryCancel.hidden = true;
+}
+
+function saveMemoryNote() {
+  const title = memoryTitle.value.trim();
+  const text = memoryText.value.trim();
+  const category = memoryCategory.value;
+
+  if (!title || !text) {
+    memoryStatus.textContent = 'Заполни название и текст заметки.';
+    return;
+  }
+
+  if (!allowedCategories.includes(category)) {
+    memoryStatus.textContent = 'Выбери категорию из списка.';
+    return;
+  }
+
+  const now = Date.now();
+
+  if (editingMemoryId !== null) {
+    const item = memoryItems.find(note => note.id === editingMemoryId);
+
+    if (!item) {
+      memoryStatus.textContent = 'Заметка не найдена.';
+      return;
+    }
+
+    item.title = title;
+    item.text = text;
+    item.category = category;
+    item.updated = now;
+  } else {
+    const newId = String(now) + '-' + Math.random().toString(36).slice(2,8);
+    memoryItems.push({
+      id: newId,
+      title,
+      text,
+      category,
+      pinned: false,
+      created: now,
+      updated: now
+    });
+  }
+
+  if (!saveMemoryData()) return;
+
+  resetMemoryForm();
+  memoryStatus.textContent = 'Заметка сохранена ✓';
+  renderMemory();
+}
+
+function editMemory(id) {
+  const item = memoryItems.find(note => note.id === id);
+  if (!item) return;
+
+  editingMemoryId = id;
+  memoryTitle.value = item.title;
+  memoryText.value = item.text;
+  memoryCategory.value = item.category;
+  memorySave.textContent = 'Сохранить изменения';
+  memoryCancel.hidden = false;
+
+  memoryTitle.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+function deleteMemory(id) {
+  const item = memoryItems.find(note => note.id === id);
+  if (!item) return;
+
+  if (!confirm('Удалить заметку «' + item.title + '»?')) return;
+
+  const previousItems = memoryItems;
+  memoryItems = memoryItems.filter(note => note.id !== id);
+
+  if (!saveMemoryData()) {
+    memoryItems = previousItems;
+    return;
+  }
+
+  if (editingMemoryId === id) resetMemoryForm();
+
+  memoryStatus.textContent = 'Заметка удалена.';
+  renderMemory();
+}
+
+function toggleMemoryPin(id) {
+  const item = memoryItems.find(note => note.id === id);
+  if (!item) return;
+
+  const previousPinned = item.pinned;
+  item.pinned = !item.pinned;
+
+  if (!saveMemoryData()) {
+    item.pinned = previousPinned;
+    return;
+  }
+
+  renderMemory();
+}
+
+function renderMemory() {
+  memoryList.innerHTML = '';
+
+  const search = memorySearch.value.trim().toLowerCase();
+  const category = memoryFilter.value;
+  const sort = memorySort.value;
+
+  let filtered = memoryItems.filter(item => {
+    const title = String(item.title || '').toLowerCase();
+    const text = String(item.text || '').toLowerCase();
+    const matchesCategory = category === 'Все' || item.category === category;
+    const matchesSearch = title.includes(search) || text.includes(search);
+    return matchesCategory && matchesSearch;
+  });
+
+  if (sort === 'new') {
+    filtered.sort((a,b) => b.created - a.created);
+  } else if (sort === 'old') {
+    filtered.sort((a,b) => a.created - b.created);
+  } else if (sort === 'pinned') {
+    filtered.sort((a,b) =>
+      Number(b.pinned) - Number(a.pinned) ||
+      b.created - a.created
+    );
+  }
+
+  if (filtered.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'memory-empty';
+    empty.textContent = memoryItems.length
+      ? 'Ничего не найдено. Попробуй изменить поиск.'
+      : 'Пока здесь пусто. Создай свою первую заметку!';
+    memoryList.appendChild(empty);
+    return;
+  }
+
+  filtered.forEach(item => {
+    const card = document.createElement('article');
+    card.className = 'memory-card' + (item.pinned ? ' pinned' : '');
+
+    const meta = document.createElement('div');
+    meta.className = 'memory-meta';
+
+    const categoryLabel = document.createElement('span');
+    categoryLabel.textContent = (item.pinned ? '★ ' : '') + item.category;
+
+    const dateLabel = document.createElement('span');
+    dateLabel.textContent = new Date(item.updated || item.created).toLocaleDateString('ru-RU');
+
+    meta.append(categoryLabel, dateLabel);
+
+    const title = document.createElement('h4');
+    title.textContent = item.title;
+
+    const content = document.createElement('p');
+    content.textContent = item.text;
+
+    const actions = document.createElement('div');
+    actions.className = 'memory-card-actions';
+
+    const pinButton = document.createElement('button');
+    pinButton.type = 'button';
+    pinButton.textContent = item.pinned ? '☆ Открепить' : '★ Важное';
+    pinButton.addEventListener('click', () => toggleMemoryPin(item.id));
+
+    const editButton = document.createElement('button');
+    editButton.type = 'button';
+    editButton.textContent = '✎ Изменить';
+    editButton.addEventListener('click', () => editMemory(item.id));
+
+    const deleteButton = document.createElement('button');
+    deleteButton.type = 'button';
+    deleteButton.textContent = 'Удалить';
+    deleteButton.addEventListener('click', () => deleteMemory(item.id));
+
+    actions.append(pinButton, editButton, deleteButton);
+    card.append(meta, title, content, actions);
+    memoryList.appendChild(card);
+  });
+}
+
+// События управления заметками
+
+memorySave.addEventListener('click', saveMemoryNote);
+
+memoryCancel.addEventListener('click', () => {
+  resetMemoryForm();
+  memoryStatus.textContent = '';
+});
+
+memorySearch.addEventListener('input', renderMemory);
+memoryFilter.addEventListener('change', renderMemory);
+memorySort.addEventListener('change', renderMemory);
+
+// BACKUP: EXPORT / COPY / RESTORE
+
+const createBackupButton = document.getElementById('createBackup');
+const copyBackupButton = document.getElementById('copyBackup');
+const restoreBackupButton = document.getElementById('restoreBackup');
+const backupData = document.getElementById('backupData');
+const backupStatus = document.getElementById('backupStatus');
+
+function setBackupStatus(message) {
+  backupStatus.textContent = message;
+}
+
+function createBackup() {
+  try {
+    const backup = {
+      app: 'Aseev AI Home',
+      type: 'Aseev Memory Backup',
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      notes: memoryItems
+    };
+
+    backupData.value = JSON.stringify(backup, null, 2);
+    backupData.focus();
+    backupData.setSelectionRange(0, 0);
+    setBackupStatus('Резервная копия создана. Теперь скопируй JSON и сохрани его отдельно.');
+  } catch(e) {
+    setBackupStatus('Не удалось создать резервную копию.');
+  }
+}
+
+async function copyBackup() {
+  const content = backupData.value.trim();
+
+  if (!content) {
+    setBackupStatus('Сначала нажми «Создать копию».');
+    return;
+  }
+
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(content);
+      setBackupStatus('JSON скопирован в буфер обмена ✓');
+      return;
+    }
+  } catch(e) {
+    // Переходим к ручному копированию ниже.
+  }
+
+  backupData.focus();
+  backupData.select();
+
+  let copied = false;
+  try {
+    copied = document.execCommand('copy');
+  } catch(e) {
+    copied = false;
+  }
+
+  setBackupStatus(copied
+    ? 'JSON скопирован ✓'
+    : 'Автокопирование недоступно. Выдели текст в поле и скопируй его вручную.');
+}
+
+function restoreBackup() {
+  const raw = backupData.value.trim();
+
+  if (!raw) {
+    setBackupStatus('Вставь JSON резервной копии в поле выше.');
+    return;
+  }
+
+  let backup;
+
+  try {
+    backup = JSON.parse(raw);
+  } catch(e) {
+    setBackupStatus('Ошибка: текст не является корректным JSON.');
+    return;
+  }
+
+  if (
+    !backup ||
+    backup.app !== 'Aseev AI Home' ||
+    backup.type !== 'Aseev Memory Backup' ||
+    backup.version !== 1 ||
+    !Array.isArray(backup.notes)
+  ) {
+    setBackupStatus('Это не резервная копия Aseev Memory подходящего формата.');
+    return;
+  }
+
+  if (backup.notes.length > 2000) {
+    setBackupStatus('В копии слишком много записей. Восстановление отменено.');
+    return;
+  }
+
+  const restoredNotes = [];
+  const usedIds = new Set();
+
+  for (let i = 0; i < backup.notes.length; i++) {
+    const source = backup.notes[i];
+
+    if (
+      !source ||
+      typeof source !== 'object' ||
+      typeof source.title !== 'string' ||
+      typeof source.text !== 'string' ||
+      !source.title.trim() ||
+      !source.text.trim() ||
+      source.title.length > 100 ||
+      source.text.length > 10000 ||
+      !allowedCategories.includes(source.category) ||
+      (source.pinned !== undefined && typeof source.pinned !== 'boolean')
+    ) {
+      setBackupStatus('В копии найдена некорректная запись №' + (i + 1) + '. Текущие заметки не изменены.');
+      return;
+    }
+
+    const now = Date.now();
+    let id = source.id;
+
+    if (
+      !((typeof id === 'string' && id.length > 0 && id.length <= 100) ||
+        (typeof id === 'number' && Number.isFinite(id)))
+    ) {
+      id = 'restored-' + now + '-' + i;
+    }
+
+    if (usedIds.has(String(id))) {
+      id = 'restored-' + now + '-' + i;
+    }
+    usedIds.add(String(id));
+
+    const created = Number(source.created);
+    const updated = Number(source.updated);
+
+    restoredNotes.push({
+      id,
+      title: source.title.trim(),
+      category: source.category,
+      text: source.text,
+      pinned: source.pinned === true,
+      created: Number.isFinite(created) && created > 0 ? created : now,
+      updated: Number.isFinite(updated) && updated > 0 ? updated : now
+    });
+  }
+
+  const confirmed = confirm(
+    'Восстановить ' + restoredNotes.length +
+    ' заметок? Текущий список заметок будет заменён содержимым резервной копии.'
+  );
+
+  if (!confirmed) {
+    setBackupStatus('Восстановление отменено. Текущие заметки сохранены.');
+    return;
+  }
+
+  const previousItems = memoryItems;
+  memoryItems = restoredNotes;
+
+  if (!saveMemoryData()) {
+    memoryItems = previousItems;
+    setBackupStatus('Не удалось сохранить восстановленные заметки. Прежний список оставлен в памяти приложения.');
+    return;
+  }
+
+  resetMemoryForm();
+  memoryStatus.textContent = 'Заметки восстановлены ✓';
+  renderMemory();
+  setBackupStatus('Готово! Восстановлено заметок: ' + restoredNotes.length + '.');
+}
+
+createBackupButton.addEventListener('click', createBackup);
+copyBackupButton.addEventListener('click', copyBackup);
+restoreBackupButton.addEventListener('click', restoreBackup);
+
+// Запуск системы памяти
+loadMemory();
+
+// CHAT STORAGE
+
+const messages = document.getElementById('messages');
+
+function getHistory() {
+  try {
+    const history = JSON.parse(localStorage.getItem('aseev_ai_chat') || '[]');
+    return Array.isArray(history) ? history.filter(item =>
+      item && (item.role === 'user' || item.role === 'assistant') &&
+      typeof item.text === 'string'
+    ) : [];
+  } catch(e) {
+    return [];
+  }
+}
+
+function loadChat() {
+  messages.innerHTML = '';
+  const history = getHistory();
+
+  if (history.length === 0) {
+    addMessage(
+      'assistant',
+      'Привет! 👋\n\nЯ нахожусь в твоём цифровом доме. Интерфейс общения уже готов. В следующем этапе мы подключим настоящий искусственный интеллект.',
+      false
+    );
+    return;
+  }
+
+  history.forEach(item => addMessage(item.role,item.text,false));
+}
+
+function addMessage(role,text,save=true) {
+  const div = document.createElement('div');
+  div.className = 'message ' + role;
+  div.textContent = text;
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
+
+  if (save) {
+    const history = getHistory();
+    history.push({role,text});
+
+    try {
+      localStorage.setItem('aseev_ai_chat',JSON.stringify(history));
+    } catch(e) {
+      console.log('Не удалось сохранить историю чата',e);
+    }
+  }
+}
+
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+
+  if (!text) return;
+
+  addMessage('user',text);
+  input.value = '';
+
+  setTimeout(() => {
+    addMessage(
+      'assistant',
+      'Я получил твоё сообщение! 😊\n\nПока мой интерфейс работает в тестовом режиме. Настоящий ИИ мы подключим следующим этапом.'
+    );
+  },400);
+}
+
+function clearChat() {
+  try {
+    localStorage.removeItem('aseev_ai_chat');
+  } catch(e) {
+    console.log('Не удалось очистить историю',e);
+  }
+  loadChat();
+}
+
+// ENTER TO SEND
+
+document.getElementById('chatInput').addEventListener('keydown',function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+</script>
+</body>
+</html>
