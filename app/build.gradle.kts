@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.aseev.ihome"
+    namespace = "com.aseev.aihome"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.aseev.ihome"
+        applicationId = "com.aseev.aihome"
         minSdk = 23
         targetSdk = 35
         versionCode = 1
