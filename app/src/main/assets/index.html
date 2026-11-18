@@ -422,7 +422,145 @@ textarea:focus {
   padding:10px 12px;
   font-size:11px;
 }
+/* ASEEV MEMORY */
 
+.memory-tools {
+  display:grid;
+  gap:10px;
+  margin:16px 0;
+}
+
+.memory-field {
+  width:100%;
+  min-width:0;
+  padding:12px 13px;
+  color:var(--text);
+  background:#0a1120;
+  border:1px solid #344766;
+  border-radius:12px;
+  font:inherit;
+  outline:none;
+}
+
+.memory-field:focus {
+  border-color:var(--cyan);
+  box-shadow:0 0 12px #54e5ff22;
+}
+
+.memory-tools textarea {
+  min-height:105px;
+}
+
+.memory-row {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+
+.memory-actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.memory-btn {
+  padding:10px 13px;
+  border:1px solid #344766;
+  border-radius:11px;
+  background:#17243a;
+  color:#d9e8ff;
+  font-size:12px;
+}
+
+.memory-btn.primary-memory {
+  color:#08111e;
+  font-weight:800;
+  border:0;
+  background:linear-gradient(100deg,var(--cyan),var(--purple));
+}
+
+.memory-btn:active {
+  transform:scale(.97);
+}
+
+.memory-list {
+  display:grid;
+  gap:11px;
+  margin-top:17px;
+}
+
+.memory-card {
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:15px;
+  background:linear-gradient(145deg,#19263d,#10192b);
+}
+
+.memory-card.pinned {
+  border-color:#54e5ff88;
+  box-shadow:0 0 13px #54e5ff12;
+}
+
+.memory-card h4 {
+  margin:0 0 7px;
+  font-size:15px;
+  overflow-wrap:anywhere;
+}
+
+.memory-card p {
+  margin:0;
+  color:#b5c1d9;
+  font-size:12px;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+
+.memory-meta {
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:10px;
+  color:var(--muted);
+  font-size:10px;
+}
+
+.memory-card-actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:12px;
+}
+
+.memory-card-actions button {
+  padding:7px 10px;
+  border:1px solid #344766;
+  border-radius:9px;
+  background:#1a2b43;
+  color:#cdeaff;
+  font-size:11px;
+}
+
+.memory-empty {
+  padding:20px 12px;
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  border:1px dashed #344766;
+  border-radius:14px;
+}
+
+.memory-status {
+  min-height:18px;
+  margin-top:9px;
+  color:var(--green);
+  font-size:11px;
+}
+
+@media(max-width:380px) {
+  .memory-row {
+    grid-template-columns:1fr;
+  }
+}
 @media(max-width:380px) {
   .wrap {padding:18px 13px 30px;}
   h1 {font-size:30px;}
@@ -531,17 +669,84 @@ textarea:focus {
     </div>
   </div>
 
-  <!-- IDEAS -->
+<!-- IDEAS / ASEEV MEMORY -->
 
-  <div id="ideas" class="panel">
-    <div class="panel-content">
-      <h3>💡 Комната идей</h3>
-      <p>Записывай задумки. Заметки сохраняются на этом устройстве.</p>
-      <textarea id="notes" placeholder="Напиши свою идею..."></textarea>
-      <button class="save" onclick="saveNotes()">Сохранить заметки</button>
-      <div id="saved" style="font-size:12px;color:#65e6b7;margin-top:9px"></div>
+<div id="ideas" class="panel">
+  <div class="panel-content">
+    <h3>💡 Aseev Memory</h3>
+    <p>
+      Твоя личная база идей, проектов и важных записей.
+      Всё хранится на этом устройстве.
+    </p>
+
+    <div class="memory-tools">
+      <input
+        id="memoryTitle"
+        class="memory-field"
+        type="text"
+        maxlength="100"
+        placeholder="Название заметки"
+      >
+
+      <select id="memoryCategory" class="memory-field">
+        <option value="Идеи">💡 Идеи</option>
+        <option value="Проекты">🚀 Проекты</option>
+        <option value="Задачи">📌 Задачи</option>
+        <option value="Личное">⭐ Личное</option>
+      </select>
+
+      <textarea
+        id="memoryText"
+        class="memory-field"
+        maxlength="10000"
+        placeholder="Напиши свою заметку..."
+      ></textarea>
+
+      <div class="memory-actions">
+        <button
+          id="memorySave"
+          class="memory-btn primary-memory"
+          type="button"
+        >Сохранить заметку</button>
+
+        <button
+          id="memoryCancel"
+          class="memory-btn"
+          type="button"
+          hidden
+        >Отмена</button>
+      </div>
+
+      <div id="memoryStatus" class="memory-status"></div>
+
+      <input
+        id="memorySearch"
+        class="memory-field"
+        type="search"
+        placeholder="🔎 Поиск по заметкам..."
+      >
+
+      <div class="memory-row">
+        <select id="memoryFilter" class="memory-field">
+          <option value="Все">Все категории</option>
+          <option value="Идеи">💡 Идеи</option>
+          <option value="Проекты">🚀 Проекты</option>
+          <option value="Задачи">📌 Задачи</option>
+          <option value="Личное">⭐ Личное</option>
+        </select>
+
+        <select id="memorySort" class="memory-field">
+          <option value="new">Сначала новые</option>
+          <option value="old">Сначала старые</option>
+          <option value="pinned">Сначала важные</option>
+        </select>
+      </div>
     </div>
+
+    <div class="section">◈ МОИ ЗАПИСИ</div>
+    <div id="memoryList" class="memory-list"></div>
   </div>
+</div>
 
   <!-- WORKSHOP -->
 
@@ -602,26 +807,305 @@ function goHome() {
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// NOTES
+// ASEEV MEMORY
 
-const notes = document.getElementById('notes');
+const memoryKey = 'aseev_memory_v1';
 
-try {
-  notes.value = localStorage.getItem('aseev_home_notes') || '';
-} catch(e) {
-  notes.value = '';
+const memoryTitle = document.getElementById('memoryTitle');
+const memoryCategory = document.getElementById('memoryCategory');
+const memoryText = document.getElementById('memoryText');
+const memoryList = document.getElementById('memoryList');
+const memorySearch = document.getElementById('memorySearch');
+const memoryFilter = document.getElementById('memoryFilter');
+const memorySort = document.getElementById('memorySort');
+const memoryStatus = document.getElementById('memoryStatus');
+const memorySave = document.getElementById('memorySave');
+const memoryCancel = document.getElementById('memoryCancel');
+
+let editingMemoryId = null;
+let memoryItems = [];
+
+function loadMemory() {
+  try {
+    const saved = localStorage.getItem(memoryKey);
+
+    if (saved !== null) {
+      const parsed = JSON.parse(saved);
+      memoryItems = Array.isArray(parsed) ? parsed : [];
+    } else {
+      // Перенос старых заметок в новую систему
+      const oldNotes = localStorage.getItem('aseev_home_notes');
+
+      if (oldNotes && oldNotes.trim()) {
+        memoryItems = [{
+          id: Date.now(),
+          title: 'Мои старые заметки',
+          category: 'Идеи',
+          text: oldNotes,
+          pinned: true,
+          created: Date.now(),
+          updated: Date.now()
+        }];
+
+        saveMemoryData();
+      }
+    }
+  } catch(e) {
+    memoryItems = [];
+    memoryStatus.textContent =
+      'Не удалось загрузить заметки.';
+  }
+
+  renderMemory();
 }
 
-function saveNotes() {
+function saveMemoryData() {
   try {
-    localStorage.setItem('aseev_home_notes',notes.value);
-    document.getElementById('saved').textContent =
-      'Сохранено на этом устройстве ✓';
+    localStorage.setItem(
+      memoryKey,
+      JSON.stringify(memoryItems)
+    );
+    return true;
   } catch(e) {
-    document.getElementById('saved').textContent =
-      'Не удалось сохранить заметки';
+    memoryStatus.textContent =
+      'Ошибка сохранения. Проверь свободное место.';
+    return false;
   }
 }
+
+function resetMemoryForm() {
+  editingMemoryId = null;
+  memoryTitle.value = '';
+  memoryText.value = '';
+  memoryCategory.value = 'Идеи';
+  memorySave.textContent = 'Сохранить заметку';
+  memoryCancel.hidden = true;
+}
+
+function saveMemoryNote() {
+  const title = memoryTitle.value.trim();
+  const text = memoryText.value.trim();
+  const category = memoryCategory.value;
+
+  if (!title || !text) {
+    memoryStatus.textContent =
+      'Заполни название и текст заметки.';
+    return;
+  }
+
+  const now = Date.now();
+
+  if (editingMemoryId !== null) {
+    const item = memoryItems.find(
+      note => note.id === editingMemoryId
+    );
+
+    if (!item) {
+      memoryStatus.textContent =
+        'Заметка не найдена.';
+      return;
+    }
+
+    item.title = title;
+    item.text = text;
+    item.category = category;
+    item.updated = now;
+  } else {
+    memoryItems.push({
+      id: now,
+      title,
+      text,
+      category,
+      pinned: false,
+      created: now,
+      updated: now
+    });
+  }
+
+  if (!saveMemoryData()) return;
+
+  resetMemoryForm();
+  memoryStatus.textContent = 'Заметка сохранена ✓';
+  renderMemory();
+}
+
+function editMemory(id) {
+  const item = memoryItems.find(
+    note => note.id === id
+  );
+
+  if (!item) return;
+
+  editingMemoryId = id;
+  memoryTitle.value = item.title;
+  memoryText.value = item.text;
+  memoryCategory.value = item.category;
+
+  memorySave.textContent = 'Сохранить изменения';
+  memoryCancel.hidden = false;
+
+  memoryTitle.scrollIntoView({
+    behavior:'smooth',
+    block:'center'
+  });
+}
+
+function deleteMemory(id) {
+  const item = memoryItems.find(
+    note => note.id === id
+  );
+
+  if (!item) return;
+
+  if (!confirm('Удалить заметку «' + item.title + '»?')) {
+    return;
+  }
+
+  memoryItems = memoryItems.filter(
+    note => note.id !== id
+  );
+
+  if (editingMemoryId === id) {
+    resetMemoryForm();
+  }
+
+  if (!saveMemoryData()) return;
+
+  memoryStatus.textContent = 'Заметка удалена.';
+  renderMemory();
+}
+
+function toggleMemoryPin(id) {
+  const item = memoryItems.find(
+    note => note.id === id
+  );
+
+  if (!item) return;
+
+  item.pinned = !item.pinned;
+
+  if (!saveMemoryData()) return;
+
+  renderMemory();
+}
+
+function renderMemory() {
+  memoryList.innerHTML = '';
+
+  const search = memorySearch.value
+    .trim()
+    .toLowerCase();
+
+  const category = memoryFilter.value;
+  const sort = memorySort.value;
+
+  let filtered = memoryItems.filter(item => {
+    const matchesCategory =
+      category === 'Все' || item.category === category;
+
+    const matchesSearch =
+      item.title.toLowerCase().includes(search) ||
+      item.text.toLowerCase().includes(search);
+
+    return matchesCategory && matchesSearch;
+  });
+
+  if (sort === 'new') {
+    filtered.sort((a,b) => b.created - a.created);
+  } else if (sort === 'old') {
+    filtered.sort((a,b) => a.created - b.created);
+  } else if (sort === 'pinned') {
+    filtered.sort((a,b) =>
+      Number(b.pinned) - Number(a.pinned) ||
+      b.created - a.created
+    );
+  }
+
+  if (filtered.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'memory-empty';
+    empty.textContent = memoryItems.length
+      ? 'Ничего не найдено. Попробуй изменить поиск.'
+      : 'Пока здесь пусто. Создай свою первую заметку!';
+    memoryList.appendChild(empty);
+    return;
+  }
+
+  filtered.forEach(item => {
+    const card = document.createElement('article');
+    card.className = 'memory-card' +
+      (item.pinned ? ' pinned' : '');
+
+    const meta = document.createElement('div');
+    meta.className = 'memory-meta';
+
+    const categoryLabel = document.createElement('span');
+    categoryLabel.textContent =
+      (item.pinned ? '★ ' : '') + item.category;
+
+    const dateLabel = document.createElement('span');
+    dateLabel.textContent =
+      new Date(item.updated || item.created)
+        .toLocaleDateString('ru-RU');
+
+    meta.append(categoryLabel, dateLabel);
+
+    const title = document.createElement('h4');
+    title.textContent = item.title;
+
+    const content = document.createElement('p');
+    content.textContent = item.text;
+
+    const actions = document.createElement('div');
+    actions.className = 'memory-card-actions';
+
+    const pinButton = document.createElement('button');
+    pinButton.textContent = item.pinned
+      ? '☆ Открепить'
+      : '★ Важное';
+    pinButton.addEventListener('click', () =>
+      toggleMemoryPin(item.id)
+    );
+
+    const editButton = document.createElement('button');
+    editButton.textContent = '✎ Изменить';
+    editButton.addEventListener('click', () =>
+      editMemory(item.id)
+    );
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Удалить';
+    deleteButton.addEventListener('click', () =>
+      deleteMemory(item.id)
+    );
+
+    actions.append(
+      pinButton,
+      editButton,
+      deleteButton
+    );
+
+    card.append(meta, title, content, actions);
+    memoryList.appendChild(card);
+  });
+}
+
+// События управления заметками
+
+memorySave.addEventListener('click', saveMemoryNote);
+
+memoryCancel.addEventListener('click', () => {
+  resetMemoryForm();
+  memoryStatus.textContent = '';
+});
+
+memorySearch.addEventListener('input', renderMemory);
+memoryFilter.addEventListener('change', renderMemory);
+memorySort.addEventListener('change', renderMemory);
+
+// Запуск системы памяти
+
+loadMemory();
 
 // CHAT STORAGE
 
