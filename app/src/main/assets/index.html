@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="ru">
 <head>
@@ -422,6 +421,7 @@ textarea:focus {
   padding:10px 12px;
   font-size:11px;
 }
+
 /* ASEEV MEMORY */
 
 .memory-tools {
@@ -556,17 +556,59 @@ textarea:focus {
   font-size:11px;
 }
 
+/* BACKUP */
+
+.backup-box {
+  margin-top:22px;
+  padding:15px;
+  border:1px solid #344766;
+  border-radius:16px;
+  background:linear-gradient(145deg,#14243a,#101729);
+}
+
+.backup-box h4 {
+  margin:0 0 7px;
+  font-size:14px;
+}
+
+.backup-box p {
+  margin:0 0 12px;
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.5;
+}
+
+.backup-box textarea {
+  min-height:125px;
+  margin-top:10px;
+  font-size:11px;
+  overflow-wrap:anywhere;
+}
+
+.backup-actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.backup-status {
+  min-height:18px;
+  margin-top:10px;
+  color:var(--green);
+  font-size:11px;
+  line-height:1.4;
+}
+
 @media(max-width:380px) {
   .memory-row {
     grid-template-columns:1fr;
   }
-}
-@media(max-width:380px) {
   .wrap {padding:18px 13px 30px;}
   h1 {font-size:30px;}
   .rooms {gap:9px;}
   .room {padding:14px 11px;}
   .chat-messages {height:300px;}
+  .backup-actions .memory-btn {flex:1 1 100%;}
 }
 </style>
 </head>
@@ -626,7 +668,6 @@ textarea:focus {
   </div>
 
   <!-- AI ROOM -->
-
   <div id="assistant" class="panel chat-panel">
     <div class="chat-head">
       <div class="assistant-icon">✦</div>
@@ -642,12 +683,7 @@ textarea:focus {
 
     <div class="chat-input-area">
       <div class="chat-input-row">
-        <textarea
-          id="chatInput"
-          class="chat-input"
-          rows="1"
-          placeholder="Напиши сообщение..."
-        ></textarea>
+        <textarea id="chatInput" class="chat-input" rows="1" placeholder="Напиши сообщение..."></textarea>
         <button class="send-btn" onclick="sendMessage()">➤</button>
       </div>
     </div>
@@ -659,7 +695,6 @@ textarea:focus {
   </div>
 
   <!-- GAMING -->
-
   <div id="gaming" class="panel">
     <div class="panel-content">
       <h3>🎮 Игровая</h3>
@@ -669,87 +704,76 @@ textarea:focus {
     </div>
   </div>
 
-<!-- IDEAS / ASEEV MEMORY -->
+  <!-- IDEAS / ASEEV MEMORY -->
+  <div id="ideas" class="panel">
+    <div class="panel-content">
+      <h3>💡 Aseev Memory</h3>
+      <p>
+        Твоя личная база идей, проектов и важных записей.
+        Всё хранится на этом устройстве.
+      </p>
 
-<div id="ideas" class="panel">
-  <div class="panel-content">
-    <h3>💡 Aseev Memory</h3>
-    <p>
-      Твоя личная база идей, проектов и важных записей.
-      Всё хранится на этом устройстве.
-    </p>
+      <div class="memory-tools">
+        <input id="memoryTitle" class="memory-field" type="text" maxlength="100" placeholder="Название заметки">
 
-    <div class="memory-tools">
-      <input
-        id="memoryTitle"
-        class="memory-field"
-        type="text"
-        maxlength="100"
-        placeholder="Название заметки"
-      >
-
-      <select id="memoryCategory" class="memory-field">
-        <option value="Идеи">💡 Идеи</option>
-        <option value="Проекты">🚀 Проекты</option>
-        <option value="Задачи">📌 Задачи</option>
-        <option value="Личное">⭐ Личное</option>
-      </select>
-
-      <textarea
-        id="memoryText"
-        class="memory-field"
-        maxlength="10000"
-        placeholder="Напиши свою заметку..."
-      ></textarea>
-
-      <div class="memory-actions">
-        <button
-          id="memorySave"
-          class="memory-btn primary-memory"
-          type="button"
-        >Сохранить заметку</button>
-
-        <button
-          id="memoryCancel"
-          class="memory-btn"
-          type="button"
-          hidden
-        >Отмена</button>
-      </div>
-
-      <div id="memoryStatus" class="memory-status"></div>
-
-      <input
-        id="memorySearch"
-        class="memory-field"
-        type="search"
-        placeholder="🔎 Поиск по заметкам..."
-      >
-
-      <div class="memory-row">
-        <select id="memoryFilter" class="memory-field">
-          <option value="Все">Все категории</option>
+        <select id="memoryCategory" class="memory-field">
           <option value="Идеи">💡 Идеи</option>
           <option value="Проекты">🚀 Проекты</option>
           <option value="Задачи">📌 Задачи</option>
           <option value="Личное">⭐ Личное</option>
         </select>
 
-        <select id="memorySort" class="memory-field">
-          <option value="new">Сначала новые</option>
-          <option value="old">Сначала старые</option>
-          <option value="pinned">Сначала важные</option>
-        </select>
+        <textarea id="memoryText" class="memory-field" maxlength="10000" placeholder="Напиши свою заметку..."></textarea>
+
+        <div class="memory-actions">
+          <button id="memorySave" class="memory-btn primary-memory" type="button">Сохранить заметку</button>
+          <button id="memoryCancel" class="memory-btn" type="button" hidden>Отмена</button>
+        </div>
+
+        <div id="memoryStatus" class="memory-status"></div>
+
+        <input id="memorySearch" class="memory-field" type="search" placeholder="🔎 Поиск по заметкам...">
+
+        <div class="memory-row">
+          <select id="memoryFilter" class="memory-field">
+            <option value="Все">Все категории</option>
+            <option value="Идеи">💡 Идеи</option>
+            <option value="Проекты">🚀 Проекты</option>
+            <option value="Задачи">📌 Задачи</option>
+            <option value="Личное">⭐ Личное</option>
+          </select>
+
+          <select id="memorySort" class="memory-field">
+            <option value="new">Сначала новые</option>
+            <option value="old">Сначала старые</option>
+            <option value="pinned">Сначала важные</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="section">◈ МОИ ЗАПИСИ</div>
+      <div id="memoryList" class="memory-list"></div>
+
+      <div class="backup-box">
+        <h4>🛡️ Резервная копия Aseev Memory</h4>
+        <p>
+          Создай копию заметок и сохрани её в надёжном месте.
+          Для восстановления вставь сюда ранее созданный JSON-файл.
+        </p>
+
+        <div class="backup-actions">
+          <button id="createBackup" class="memory-btn primary-memory" type="button">Создать копию</button>
+          <button id="copyBackup" class="memory-btn" type="button">Скопировать JSON</button>
+          <button id="restoreBackup" class="memory-btn" type="button">Восстановить заметки</button>
+        </div>
+
+        <textarea id="backupData" spellcheck="false" placeholder="Здесь появится резервная копия. Для восстановления вставь сюда её содержимое..."></textarea>
+        <div id="backupStatus" class="backup-status" aria-live="polite"></div>
       </div>
     </div>
-
-    <div class="section">◈ МОИ ЗАПИСИ</div>
-    <div id="memoryList" class="memory-list"></div>
   </div>
-</div>
 
   <!-- WORKSHOP -->
-
   <div id="workshop" class="panel">
     <div class="panel-content">
       <h3>🛠️ Мастерская</h3>
@@ -763,7 +787,6 @@ textarea:focus {
   </div>
 
   <!-- LIBRARY -->
-
   <div id="library" class="panel">
     <div class="panel-content">
       <h3>📚 Библиотека</h3>
@@ -773,13 +796,12 @@ textarea:focus {
   </div>
 
   <div class="foot">
-    ASEEV AI HOME · NEON FUTURE · VERSION 2.0
+    ASEEV AI HOME · NEON FUTURE · VERSION 2.1
   </div>
 
 </div>
 
 <script>
-
 // ROOMS
 
 function show(id) {
@@ -792,9 +814,9 @@ function show(id) {
 }
 
 function closeAllPanels() {
-  document.querySelectorAll('.panel').forEach(p =>
-    p.classList.remove('active')
-  );
+  document.querySelectorAll('.panel').forEach(panel => {
+    panel.classList.remove('active');
+  });
 }
 
 function openAssistant() {
@@ -810,6 +832,7 @@ function goHome() {
 // ASEEV MEMORY
 
 const memoryKey = 'aseev_memory_v1';
+const allowedCategories = ['Идеи','Проекты','Задачи','Личное'];
 
 const memoryTitle = document.getElementById('memoryTitle');
 const memoryCategory = document.getElementById('memoryCategory');
@@ -825,13 +848,42 @@ const memoryCancel = document.getElementById('memoryCancel');
 let editingMemoryId = null;
 let memoryItems = [];
 
+function cleanMemoryItem(item, index) {
+  if (!item || typeof item !== 'object') return null;
+
+  const title = typeof item.title === 'string' ? item.title.trim() : '';
+  const text = typeof item.text === 'string' ? item.text : '';
+  const category = allowedCategories.includes(item.category) ? item.category : 'Идеи';
+
+  if (!title || !text.trim()) return null;
+
+  const now = Date.now();
+  const rawId = item.id;
+  const id = (typeof rawId === 'number' && Number.isFinite(rawId)) ||
+             (typeof rawId === 'string' && rawId.length > 0)
+    ? rawId
+    : now + index;
+
+  return {
+    id,
+    title: title.slice(0,100),
+    category,
+    text: text.slice(0,10000),
+    pinned: item.pinned === true,
+    created: Number.isFinite(Number(item.created)) ? Number(item.created) : now,
+    updated: Number.isFinite(Number(item.updated)) ? Number(item.updated) : now
+  };
+}
+
 function loadMemory() {
   try {
     const saved = localStorage.getItem(memoryKey);
 
     if (saved !== null) {
       const parsed = JSON.parse(saved);
-      memoryItems = Array.isArray(parsed) ? parsed : [];
+      memoryItems = Array.isArray(parsed)
+        ? parsed.map(cleanMemoryItem).filter(Boolean)
+        : [];
     } else {
       // Перенос старых заметок в новую систему
       const oldNotes = localStorage.getItem('aseev_home_notes');
@@ -841,19 +893,17 @@ function loadMemory() {
           id: Date.now(),
           title: 'Мои старые заметки',
           category: 'Идеи',
-          text: oldNotes,
+          text: oldNotes.slice(0,10000),
           pinned: true,
           created: Date.now(),
           updated: Date.now()
         }];
-
         saveMemoryData();
       }
     }
   } catch(e) {
     memoryItems = [];
-    memoryStatus.textContent =
-      'Не удалось загрузить заметки.';
+    memoryStatus.textContent = 'Не удалось загрузить заметки. Данные в хранилище могут быть повреждены.';
   }
 
   renderMemory();
@@ -861,14 +911,10 @@ function loadMemory() {
 
 function saveMemoryData() {
   try {
-    localStorage.setItem(
-      memoryKey,
-      JSON.stringify(memoryItems)
-    );
+    localStorage.setItem(memoryKey, JSON.stringify(memoryItems));
     return true;
   } catch(e) {
-    memoryStatus.textContent =
-      'Ошибка сохранения. Проверь свободное место.';
+    memoryStatus.textContent = 'Ошибка сохранения. Проверь свободное место на устройстве.';
     return false;
   }
 }
@@ -888,21 +934,22 @@ function saveMemoryNote() {
   const category = memoryCategory.value;
 
   if (!title || !text) {
-    memoryStatus.textContent =
-      'Заполни название и текст заметки.';
+    memoryStatus.textContent = 'Заполни название и текст заметки.';
+    return;
+  }
+
+  if (!allowedCategories.includes(category)) {
+    memoryStatus.textContent = 'Выбери категорию из списка.';
     return;
   }
 
   const now = Date.now();
 
   if (editingMemoryId !== null) {
-    const item = memoryItems.find(
-      note => note.id === editingMemoryId
-    );
+    const item = memoryItems.find(note => note.id === editingMemoryId);
 
     if (!item) {
-      memoryStatus.textContent =
-        'Заметка не найдена.';
+      memoryStatus.textContent = 'Заметка не найдена.';
       return;
     }
 
@@ -911,8 +958,9 @@ function saveMemoryNote() {
     item.category = category;
     item.updated = now;
   } else {
+    const newId = String(now) + '-' + Math.random().toString(36).slice(2,8);
     memoryItems.push({
-      id: now,
+      id: newId,
       title,
       text,
       category,
@@ -930,61 +978,50 @@ function saveMemoryNote() {
 }
 
 function editMemory(id) {
-  const item = memoryItems.find(
-    note => note.id === id
-  );
-
+  const item = memoryItems.find(note => note.id === id);
   if (!item) return;
 
   editingMemoryId = id;
   memoryTitle.value = item.title;
   memoryText.value = item.text;
   memoryCategory.value = item.category;
-
   memorySave.textContent = 'Сохранить изменения';
   memoryCancel.hidden = false;
 
-  memoryTitle.scrollIntoView({
-    behavior:'smooth',
-    block:'center'
-  });
+  memoryTitle.scrollIntoView({behavior:'smooth',block:'center'});
 }
 
 function deleteMemory(id) {
-  const item = memoryItems.find(
-    note => note.id === id
-  );
-
+  const item = memoryItems.find(note => note.id === id);
   if (!item) return;
 
-  if (!confirm('Удалить заметку «' + item.title + '»?')) {
+  if (!confirm('Удалить заметку «' + item.title + '»?')) return;
+
+  const previousItems = memoryItems;
+  memoryItems = memoryItems.filter(note => note.id !== id);
+
+  if (!saveMemoryData()) {
+    memoryItems = previousItems;
     return;
   }
 
-  memoryItems = memoryItems.filter(
-    note => note.id !== id
-  );
-
-  if (editingMemoryId === id) {
-    resetMemoryForm();
-  }
-
-  if (!saveMemoryData()) return;
+  if (editingMemoryId === id) resetMemoryForm();
 
   memoryStatus.textContent = 'Заметка удалена.';
   renderMemory();
 }
 
 function toggleMemoryPin(id) {
-  const item = memoryItems.find(
-    note => note.id === id
-  );
-
+  const item = memoryItems.find(note => note.id === id);
   if (!item) return;
 
+  const previousPinned = item.pinned;
   item.pinned = !item.pinned;
 
-  if (!saveMemoryData()) return;
+  if (!saveMemoryData()) {
+    item.pinned = previousPinned;
+    return;
+  }
 
   renderMemory();
 }
@@ -992,21 +1029,15 @@ function toggleMemoryPin(id) {
 function renderMemory() {
   memoryList.innerHTML = '';
 
-  const search = memorySearch.value
-    .trim()
-    .toLowerCase();
-
+  const search = memorySearch.value.trim().toLowerCase();
   const category = memoryFilter.value;
   const sort = memorySort.value;
 
   let filtered = memoryItems.filter(item => {
-    const matchesCategory =
-      category === 'Все' || item.category === category;
-
-    const matchesSearch =
-      item.title.toLowerCase().includes(search) ||
-      item.text.toLowerCase().includes(search);
-
+    const title = String(item.title || '').toLowerCase();
+    const text = String(item.text || '').toLowerCase();
+    const matchesCategory = category === 'Все' || item.category === category;
+    const matchesSearch = title.includes(search) || text.includes(search);
     return matchesCategory && matchesSearch;
   });
 
@@ -1033,20 +1064,16 @@ function renderMemory() {
 
   filtered.forEach(item => {
     const card = document.createElement('article');
-    card.className = 'memory-card' +
-      (item.pinned ? ' pinned' : '');
+    card.className = 'memory-card' + (item.pinned ? ' pinned' : '');
 
     const meta = document.createElement('div');
     meta.className = 'memory-meta';
 
     const categoryLabel = document.createElement('span');
-    categoryLabel.textContent =
-      (item.pinned ? '★ ' : '') + item.category;
+    categoryLabel.textContent = (item.pinned ? '★ ' : '') + item.category;
 
     const dateLabel = document.createElement('span');
-    dateLabel.textContent =
-      new Date(item.updated || item.created)
-        .toLocaleDateString('ru-RU');
+    dateLabel.textContent = new Date(item.updated || item.created).toLocaleDateString('ru-RU');
 
     meta.append(categoryLabel, dateLabel);
 
@@ -1060,31 +1087,21 @@ function renderMemory() {
     actions.className = 'memory-card-actions';
 
     const pinButton = document.createElement('button');
-    pinButton.textContent = item.pinned
-      ? '☆ Открепить'
-      : '★ Важное';
-    pinButton.addEventListener('click', () =>
-      toggleMemoryPin(item.id)
-    );
+    pinButton.type = 'button';
+    pinButton.textContent = item.pinned ? '☆ Открепить' : '★ Важное';
+    pinButton.addEventListener('click', () => toggleMemoryPin(item.id));
 
     const editButton = document.createElement('button');
+    editButton.type = 'button';
     editButton.textContent = '✎ Изменить';
-    editButton.addEventListener('click', () =>
-      editMemory(item.id)
-    );
+    editButton.addEventListener('click', () => editMemory(item.id));
 
     const deleteButton = document.createElement('button');
+    deleteButton.type = 'button';
     deleteButton.textContent = 'Удалить';
-    deleteButton.addEventListener('click', () =>
-      deleteMemory(item.id)
-    );
+    deleteButton.addEventListener('click', () => deleteMemory(item.id));
 
-    actions.append(
-      pinButton,
-      editButton,
-      deleteButton
-    );
-
+    actions.append(pinButton, editButton, deleteButton);
     card.append(meta, title, content, actions);
     memoryList.appendChild(card);
   });
@@ -1103,8 +1120,184 @@ memorySearch.addEventListener('input', renderMemory);
 memoryFilter.addEventListener('change', renderMemory);
 memorySort.addEventListener('change', renderMemory);
 
-// Запуск системы памяти
+// BACKUP: EXPORT / COPY / RESTORE
 
+const createBackupButton = document.getElementById('createBackup');
+const copyBackupButton = document.getElementById('copyBackup');
+const restoreBackupButton = document.getElementById('restoreBackup');
+const backupData = document.getElementById('backupData');
+const backupStatus = document.getElementById('backupStatus');
+
+function setBackupStatus(message) {
+  backupStatus.textContent = message;
+}
+
+function createBackup() {
+  try {
+    const backup = {
+      app: 'Aseev AI Home',
+      type: 'Aseev Memory Backup',
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      notes: memoryItems
+    };
+
+    backupData.value = JSON.stringify(backup, null, 2);
+    backupData.focus();
+    backupData.setSelectionRange(0, 0);
+    setBackupStatus('Резервная копия создана. Теперь скопируй JSON и сохрани его отдельно.');
+  } catch(e) {
+    setBackupStatus('Не удалось создать резервную копию.');
+  }
+}
+
+async function copyBackup() {
+  const content = backupData.value.trim();
+
+  if (!content) {
+    setBackupStatus('Сначала нажми «Создать копию».');
+    return;
+  }
+
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(content);
+      setBackupStatus('JSON скопирован в буфер обмена ✓');
+      return;
+    }
+  } catch(e) {
+    // Переходим к ручному копированию ниже.
+  }
+
+  backupData.focus();
+  backupData.select();
+
+  let copied = false;
+  try {
+    copied = document.execCommand('copy');
+  } catch(e) {
+    copied = false;
+  }
+
+  setBackupStatus(copied
+    ? 'JSON скопирован ✓'
+    : 'Автокопирование недоступно. Выдели текст в поле и скопируй его вручную.');
+}
+
+function restoreBackup() {
+  const raw = backupData.value.trim();
+
+  if (!raw) {
+    setBackupStatus('Вставь JSON резервной копии в поле выше.');
+    return;
+  }
+
+  let backup;
+
+  try {
+    backup = JSON.parse(raw);
+  } catch(e) {
+    setBackupStatus('Ошибка: текст не является корректным JSON.');
+    return;
+  }
+
+  if (
+    !backup ||
+    backup.app !== 'Aseev AI Home' ||
+    backup.type !== 'Aseev Memory Backup' ||
+    backup.version !== 1 ||
+    !Array.isArray(backup.notes)
+  ) {
+    setBackupStatus('Это не резервная копия Aseev Memory подходящего формата.');
+    return;
+  }
+
+  if (backup.notes.length > 2000) {
+    setBackupStatus('В копии слишком много записей. Восстановление отменено.');
+    return;
+  }
+
+  const restoredNotes = [];
+  const usedIds = new Set();
+
+  for (let i = 0; i < backup.notes.length; i++) {
+    const source = backup.notes[i];
+
+    if (
+      !source ||
+      typeof source !== 'object' ||
+      typeof source.title !== 'string' ||
+      typeof source.text !== 'string' ||
+      !source.title.trim() ||
+      !source.text.trim() ||
+      source.title.length > 100 ||
+      source.text.length > 10000 ||
+      !allowedCategories.includes(source.category) ||
+      (source.pinned !== undefined && typeof source.pinned !== 'boolean')
+    ) {
+      setBackupStatus('В копии найдена некорректная запись №' + (i + 1) + '. Текущие заметки не изменены.');
+      return;
+    }
+
+    const now = Date.now();
+    let id = source.id;
+
+    if (
+      !((typeof id === 'string' && id.length > 0 && id.length <= 100) ||
+        (typeof id === 'number' && Number.isFinite(id)))
+    ) {
+      id = 'restored-' + now + '-' + i;
+    }
+
+    if (usedIds.has(String(id))) {
+      id = 'restored-' + now + '-' + i;
+    }
+    usedIds.add(String(id));
+
+    const created = Number(source.created);
+    const updated = Number(source.updated);
+
+    restoredNotes.push({
+      id,
+      title: source.title.trim(),
+      category: source.category,
+      text: source.text,
+      pinned: source.pinned === true,
+      created: Number.isFinite(created) && created > 0 ? created : now,
+      updated: Number.isFinite(updated) && updated > 0 ? updated : now
+    });
+  }
+
+  const confirmed = confirm(
+    'Восстановить ' + restoredNotes.length +
+    ' заметок? Текущий список заметок будет заменён содержимым резервной копии.'
+  );
+
+  if (!confirmed) {
+    setBackupStatus('Восстановление отменено. Текущие заметки сохранены.');
+    return;
+  }
+
+  const previousItems = memoryItems;
+  memoryItems = restoredNotes;
+
+  if (!saveMemoryData()) {
+    memoryItems = previousItems;
+    setBackupStatus('Не удалось сохранить восстановленные заметки. Прежний список оставлен в памяти приложения.');
+    return;
+  }
+
+  resetMemoryForm();
+  memoryStatus.textContent = 'Заметки восстановлены ✓';
+  renderMemory();
+  setBackupStatus('Готово! Восстановлено заметок: ' + restoredNotes.length + '.');
+}
+
+createBackupButton.addEventListener('click', createBackup);
+copyBackupButton.addEventListener('click', copyBackup);
+restoreBackupButton.addEventListener('click', restoreBackup);
+
+// Запуск системы памяти
 loadMemory();
 
 // CHAT STORAGE
@@ -1113,7 +1306,11 @@ const messages = document.getElementById('messages');
 
 function getHistory() {
   try {
-    return JSON.parse(localStorage.getItem('aseev_ai_chat') || '[]');
+    const history = JSON.parse(localStorage.getItem('aseev_ai_chat') || '[]');
+    return Array.isArray(history) ? history.filter(item =>
+      item && (item.role === 'user' || item.role === 'assistant') &&
+      typeof item.text === 'string'
+    ) : [];
   } catch(e) {
     return [];
   }
@@ -1188,7 +1385,6 @@ document.getElementById('chatInput').addEventListener('keydown',function(e) {
     sendMessage();
   }
 });
-
 </script>
 </body>
 </html>
